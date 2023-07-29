@@ -12,11 +12,14 @@ input::-webkit-inner-spin-button {
 
 *{
   font-family: 'Inter', sans-serif;
+}
+body{
   @apply text-slate-600
 }
 h1{
   @apply text-xl font-bold
 }
+
 .text-primary{
   @apply text-blue-600
 }
