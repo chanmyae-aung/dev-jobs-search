@@ -11,14 +11,14 @@ function Switch() {
   return (
     <div onClick={() => dispatch(switchMode())} className="mx-3">
       <div
-        className={`cursor-pointer	w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 ${
+        className={`cursor-pointer	w-10 h-5 flex items-center bg-gray-300 rounded-full p-1 ${
           isSelected ? 'bg-gray-500 justify-end' : 'justify-start'
         }`}
         onClick={() => setSelected(!isSelected)}
       >
         <motion.div
           layout
-          className="bg-white w-4 h-4 rounded-full shadow-md"
+          className="bg-white w-3 h-3 rounded-full shadow-md"
         ></motion.div>
       </div>
     </div>
