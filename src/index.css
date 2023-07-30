@@ -17,9 +17,20 @@ body{
   @apply text-slate-600
 }
 h1{
-  @apply text-xl font-bold
+  @apply text-xl font-bold text-slate-800
 }
 
 .text-primary{
   @apply text-blue-600
+}
+.sub-title {
+  @apply text-lg font-bold mb-2
+}
+
+ul {
+  @apply list-disc pl-5
+}
+
+.dark{
+  @apply bg-[#333945]
 }

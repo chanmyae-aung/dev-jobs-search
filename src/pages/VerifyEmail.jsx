@@ -2,12 +2,13 @@ import React from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
+import CountDown from "../components/CountDown";
 
 export default function VerifyEmail() {
-    const nav = useNavigate()
-    const handleVerify = () => {
-        nav("/")
-    }
+  const nav = useNavigate();
+  const handleVerify = () => {
+    nav("/");
+  };
   return (
     <main className="flex h-screen items-center justify-center">
       <div className="lg:w-[60%] w-screen h-screen lg:h-[80%] flex rounded overflow-hidden bg-slate-100">
@@ -23,27 +24,32 @@ export default function VerifyEmail() {
               Enter 6-digit code that we sent to your email. Be careful not to
               share the code with anyone.
             </p>
-            <form action="" className="flex w-full flex-col gap-3">
-              <div className="flex gap-2">
+            <form action="" className="flex w-full justify-between flex-col gap-24">
+              <div>
                 <input
                   type="number"
                   placeholder="000000"
-                  className="bg-white text-center font-bold w-full py-2 mb-32 rounded px-4 outline-none text-2xl"
+                  className="bg-white text-center font-bold w-full py-2  rounded px-4 outline-none text-2xl"
                 />
+                <p className="text-sm my-2">
+                  Your code will expire in {<CountDown/>} seconds
+                </p>
               </div>
-              <div className="flex gap-2 text-sm">
-                <p>Didn't receive the code?</p>
-                <Link to={"/resend"}>
-                  <span className="text-primary font-bold">Resend</span>
-                </Link>
-              </div>
-              <div className="w-full" onClick={handleVerify}>
-              <Button
-                text={"VERIFY"}
-                className={
-                  "w-full px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
-                }
-              />
+              <div>
+                <div className="flex gap-2 mb-3 text-sm">
+                  <p>Didn't receive the code?</p>
+                  <Link to={"/resend"}>
+                    <span className="text-primary font-bold">Resend</span>
+                  </Link>
+                </div>
+                <div className="w-full" onClick={handleVerify}>
+                  <Button
+                    text={"VERIFY"}
+                    className={
+                      "w-full px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
+                    }
+                  />
+                </div>
               </div>
             </form>
           </div>

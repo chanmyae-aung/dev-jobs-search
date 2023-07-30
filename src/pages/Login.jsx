@@ -1,8 +1,12 @@
 import React from "react";
 import Button from "../components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const nav = useNavigate()
+  const handleLogin = () => {
+    nav("/")
+  }
   return (
     <main className="flex h-screen items-center justify-center">
       <div className="lg:w-[60%] w-screen h-screen lg:h-[80%] flex rounded overflow-hidden bg-slate-100">
@@ -11,7 +15,7 @@ export default function Login() {
           <p className="text-slate-500">
             Welcome back to <span className="text-lg font-bold italic text-primary">devjobs</span>
           </p>
-          <form action="" className="flex w-full flex-col gap-3">
+          <form onSubmit={handleLogin} className="flex w-full flex-col gap-3">
             <input
               type="email"
               placeholder="Enter your email"

@@ -7,6 +7,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import VerifyEmail from './pages/VerifyEmail'
 import ResetPassword from './pages/ResetPassword'
 import ResendCode from './pages/ResendCode'
+import Detail from './components/Detail'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path='/verify-email' element={<VerifyEmail/>}/>
         <Route path='/reset' element={<ResetPassword/>}/>
         <Route path='/resend' element={<ResendCode/>}/>
+        <Route path='/detail' element={<Detail/>}/>
       </Routes>
     </div>
   )
