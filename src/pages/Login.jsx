@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../redux/api/authApi";
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/features/authSlice";
 
 export default function Login() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const nav = useNavigate()
-  const handleLogin = () => {
-    nav("/")
+  const dispatch = useDispatch()
+  const [login, {isLoading}] = useLoginMutation()
+  const user = {email, password}
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    const {data} = await login(user)
+    console.log(data)
+    dispatch(addUser({user: data?.data, token: data?.data.token}))
+    data?.data.token && nav("/")
+    // nav("/")
   }
   return (
     <main className="flex h-screen items-center justify-center">
@@ -17,11 +31,13 @@ export default function Login() {
           </p>
           <form onSubmit={handleLogin} className="flex w-full flex-col gap-3">
             <input
+            onChange={(e) => setEmail(e.target.value)}
               type="email"
               placeholder="Enter your email"
               className="bg-white w-full py-3 rounded px-4 outline-none text-sm"
             />
             <input
+            onChange={(e) => setPassword(e.target.value)}
               type="password"
               placeholder="Enter your password"
               className="bg-white w-full py-3 rounded px-4 outline-none text-sm"
@@ -32,6 +48,7 @@ export default function Login() {
             
             <div className="flex gap-3 mt-3">
               <Button
+              isLoading={isLoading}
                 text={"LOG IN"}
                 className={
                   "w-fit px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"

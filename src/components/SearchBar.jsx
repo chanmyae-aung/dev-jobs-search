@@ -3,10 +3,13 @@ import { BsSearch } from "react-icons/bs";
 import { FaMapMarkerAlt, FaFilter } from "react-icons/fa";
 import Button from "./Button";
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 export default function SearchBar() {
   const [filter, setFilter] = useState(false);
   const dark = useSelector((state) => state.dark.dark);
+  // const dark = JSON.parse(Cookies.get("dark"));
+
   return (
     <main>
       <section className="hidden md:flex">
@@ -33,7 +36,7 @@ export default function SearchBar() {
         <div
           className={`${
             dark ? "bg-[#374151] text-white" : "bg-white"
-          } transition-all ease-linear duration-300 rounded-r z-50 flex items-center justify-between w-full lg:w-[30%] py-2 pl-4 pr-2 outline-none`}
+          } transition-all ease-linear duration-300 rounded-r z-10 flex items-center justify-between w-full lg:w-[30%] py-2 pl-4 pr-2 outline-none`}
         >
           <div className="flex gap-4">
             <input type="checkbox" id="checkbox" />
@@ -72,7 +75,6 @@ export default function SearchBar() {
             />
           </div>
         )}
-
         <FaFilter
           onClick={() => setFilter(!filter)}
           className={`${

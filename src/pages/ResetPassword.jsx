@@ -49,7 +49,8 @@ export default function ResetPassword() {
               </div>
               <div className="w-full" onClick={handleReset}>
               <Button
-                text={"RESET"}
+                  // isLoading={isLoading}
+                  text={"RESET"}
                 className={
                   "w-full px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
                 }

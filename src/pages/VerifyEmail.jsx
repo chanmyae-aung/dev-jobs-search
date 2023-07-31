@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import CountDown from "../components/CountDown";
+import { useOtpConfirmMutation } from "../redux/api/authApi";
+import { addUser } from "../redux/features/authSlice";
+import { useDispatch } from "react-redux";
 
 export default function VerifyEmail() {
   const nav = useNavigate();
-  const handleVerify = () => {
-    nav("/");
+  const dispatch = useDispatch()
+  const [code, setCode] = useState("")
+  const [otpCode, {isLoading}] = useOtpConfirmMutation()
+  const handleVerify = async (e) => {
+    e.preventDefault()
+    const {data} = await otpCode({code})
+    console.log(data)
+    dispatch(addUser({user: data?.data, token: data?.data.token}))
+    data?.message === "success" && nav("/");
   };
   return (
     <main className="flex h-screen items-center justify-center">
@@ -27,6 +37,7 @@ export default function VerifyEmail() {
             <form action="" className="flex w-full justify-between flex-col gap-24">
               <div>
                 <input
+                onChange={(e) => setCode(e.target.value)}
                   type="number"
                   placeholder="000000"
                   className="bg-white text-center font-bold w-full py-2  rounded px-4 outline-none text-2xl"
@@ -44,7 +55,8 @@ export default function VerifyEmail() {
                 </div>
                 <div className="w-full" onClick={handleVerify}>
                   <Button
-                    text={"VERIFY"}
+                  isLoading={isLoading}
+                  text={"VERIFY"}
                     className={
                       "w-full px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
                     }

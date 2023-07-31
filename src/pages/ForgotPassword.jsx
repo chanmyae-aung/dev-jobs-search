@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
+import { useResendMutation } from "../redux/api/authApi";
 
 export default function ForgotPassword() {
+  const [email, setEmail] = useState()
   const nav = useNavigate()
-  const handleNext = () => {
-    nav("/reset")
+
+  const [resendEmail, {isLoading}] = useResendMutation()
+  const handleNext = async (e) => {
+    e.preventDefault()
+    const {data} = await resendEmail({email})
+    // console.log(data)
+    data?.message === "success" && nav("/verify-email")
   }
   return (
     <main className="flex h-screen items-center justify-center">
@@ -23,15 +30,17 @@ export default function ForgotPassword() {
             Please enter your email address to search for your account and
             change your password.
           </p>
-          <form action="" className="flex w-full flex-col gap-3">
+          <form onSubmit={handleNext} action="" className="flex w-full flex-col gap-3">
             <input
+            onChange={(e) => setEmail(e.target.value)}
               type="email"
               placeholder="Enter your email"
               className="bg-white w-full py-3 mb-32 rounded px-4 outline-none text-sm"
             />
-            <div className="w-full" onClick={handleNext}>
+            <div className="w-full">
             <Button
-              text={"NEXT"}
+                  isLoading={isLoading}
+                  text={"NEXT"}
               className={
                 "w-full px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
               }

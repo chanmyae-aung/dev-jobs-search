@@ -9,7 +9,8 @@ export default function Detail() {
   const toggleModal = () => {
     setModal(!modal);
   };
-  const dark = useSelector((state) => state.dark.dark);
+  const dark = useSelector(state => state.dark.dark)
+  // const dark = JSON.parse(Cookies.get("dark"))
   return (
     <>
       <main

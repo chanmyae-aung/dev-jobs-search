@@ -1,9 +1,11 @@
+import Cookies from 'js-cookie'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 export default function Card() {
-  const dark = useSelector((state) => state.dark.dark)
+  const dark = useSelector(state => state.dark.dark)
+  // const dark = JSON.parse(Cookies.get("dark"))
   const nav = useNavigate()
   const handleClick = () => {
     // nav(`/detail:${id}`)
