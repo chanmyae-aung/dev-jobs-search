@@ -11,8 +11,8 @@ export default function SearchBar() {
   // const dark = JSON.parse(Cookies.get("dark"));
 
   return (
-    <main>
-      <section className="hidden md:flex">
+    <main className="sticky top-24 shadow-md">
+      <section className="hidden md:flex ">
         <div className="relative w-full lg:w-[40%] rounded-l">
           <BsSearch className="text-primary absolute mx-4 top-[18px] " />
           <input
@@ -46,7 +46,7 @@ export default function SearchBar() {
           </div>
           <Button
             text={"Search"}
-            className={"bg-blue-600 text-white font-bold px-4 py-1.5 rounded"}
+            className={"bg-blue-600 text-white font-bold px-4 py-1.5 h-fit rounded"}
           />
         </div>
       </section>

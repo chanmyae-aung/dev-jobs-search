@@ -2,18 +2,22 @@ import React, { useState } from "react";
 import Button from "../components/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
-import { useResendMutation } from "../redux/api/authApi";
+import { useForgotMutation } from "../redux/api/authApi";
+import { useDispatch } from "react-redux";
+import { addForgotData } from "../redux/features/authSlice";
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState()
+  const [email, setEmail] = useState("")
   const nav = useNavigate()
-
-  const [resendEmail, {isLoading}] = useResendMutation()
+  const dispatch = useDispatch()
+  console.log(email)
+  const [forgotEmail, {isLoading}] = useForgotMutation()
   const handleNext = async (e) => {
     e.preventDefault()
-    const {data} = await resendEmail({email})
-    // console.log(data)
-    data?.message === "success" && nav("/verify-email")
+    const {data} = await forgotEmail({email})
+    console.log(data)
+    dispatch(addForgotData({forgotEmail: email}))
+    data?.success && nav("/forgot-code")
   }
   return (
     <main className="flex h-screen items-center justify-center">

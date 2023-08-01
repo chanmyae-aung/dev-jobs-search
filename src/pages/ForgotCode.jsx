@@ -1,29 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import CountDown from "../components/CountDown";
-import { useOtpConfirmMutation } from "../redux/api/authApi";
-import { addUser } from "../redux/features/authSlice";
+import { useForgotCodeMutation} from "../redux/api/authApi";
 import { useDispatch } from "react-redux";
+import { addForgotData } from "../redux/features/authSlice";
+import Cookies from "js-cookie";
 
-export default function VerifyEmail() {
+export default function ForgotCode() {
+  const email = (Cookies.get("forgotEmail"))
+  console.log(email)
   const nav = useNavigate();
   const dispatch = useDispatch()
   const [code, setCode] = useState("")
-  const [resend, setResend] = useState(false)
-  useEffect(() => {
-    setTimeout(() => {
-      setResend(true)
-    }, 1000 * 60)
-  },[])
-  const [otpCode, {isLoading}] = useOtpConfirmMutation()
+  const [forgotCode, {isLoading}] = useForgotCodeMutation()
   const handleVerify = async (e) => {
     e.preventDefault()
-    const {data} = await otpCode({code})
+    const {data} = await forgotCode({code})
     console.log(data)
-    dispatch(addUser({user: data?.data, token: data?.data.token}))
-    data?.success && nav("/");
+    dispatch(addForgotData({forgotCode: code, forgotEmail: email }))
+    data?.success && nav("/reset");
   };
   return (
     <main className="flex h-screen items-center justify-center">
@@ -45,12 +42,9 @@ export default function VerifyEmail() {
                 <input
                 onChange={(e) => setCode(e.target.value)}
                   type="number"
-                  placeholder="000000" autoFocus={true}
+                  placeholder="000000"
                   className="bg-white text-center font-bold w-full py-2  rounded px-4 outline-none text-2xl"
                 />
-                <p className="text-sm my-2">
-                  Your code will expire in {<CountDown/>} seconds
-                </p>
               </div>
               <div>
                 <div className="flex gap-2 mb-3 text-sm">

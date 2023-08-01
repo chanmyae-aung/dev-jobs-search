@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 const initialState = {
   user: null,
   token: null,
+  forgotEmail: null,
+  forgotCode: null,
 };
 
 export const authSlice = createSlice({
@@ -17,11 +19,17 @@ export const authSlice = createSlice({
       state.token = Cookies.set("token", state.token);
     },
     removeUser: (state) => {
-      state.user = null, state.token = null
-      Cookies.remove("user"), Cookies.remove("token")
-    }
+      (state.user = null), (state.token = null);
+      Cookies.remove("user"), Cookies.remove("token");
+    },
+    addForgotData: (state, { payload }) => {
+      state.forgotEmail = payload.forgotEmail;
+      state.forgotCode = payload.forgotCode;
+      Cookies.set("forgotEmail", (state.forgotEmail));
+      Cookies.set("forgotCode", (state.forgotCode));
+    },
   },
 });
 
-export const { addUser, removeUser } = authSlice.actions;
+export const { addUser, removeUser, addForgotData } = authSlice.actions;
 export default authSlice.reducer;

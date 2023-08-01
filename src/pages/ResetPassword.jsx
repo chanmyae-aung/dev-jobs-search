@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import {LiaEye, LiaEyeSlash} from 'react-icons/lia'    
+import { LiaEye, LiaEyeSlash } from "react-icons/lia";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import { useChangePasswordMutation } from "../redux/api/authApi";
+import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
 
 export default function ResetPassword() {
-    const [showPass, setShowPass] = useState(true)
-    const [showConfirmPass, setShowConfirmPass] = useState(true)
-    const nav = useNavigate()
-    const handleReset = () => {
-        nav("/login")
-    }
-    
+  const email = Cookies.get("forgotEmail");
+  const code = Cookies.get("forgotCode");
+  const [showPass, setShowPass] = useState(true);
+  const [showConfirmPass, setShowConfirmPass] = useState(true);
+  const [password, setPassword] = useState("");
+  const [new_password, setNewPassword] = useState("");
+  const [change, { isLoading }] = useChangePasswordMutation();
+  const nav = useNavigate();
+  const handleReset = async (e) => {
+    e.preventDefault();
+    const { data } = await change({ email, code, password, new_password });
+    console.log(data);
+    data?.success && nav("/login");
+  };
+
   return (
     <main className="flex h-screen items-center justify-center">
       <div className="lg:w-[60%] w-screen h-screen lg:h-[80%] flex rounded overflow-hidden bg-slate-100">
@@ -26,35 +37,55 @@ export default function ResetPassword() {
             <p className="py-5">
               Your new password must be different to previously used password.
             </p>
-            <form action="" className="flex w-full flex-col gap-3">
+            <form
+              onSubmit={handleReset}
+              action=""
+              className="flex w-full flex-col gap-3"
+            >
               <div className="relative">
                 <input
+                  onChange={(e) => setPassword(e.target.value)}
                   type={`${showPass ? "password" : "text"}`}
-                  placeholder="New password"
+                  placeholder="New password" autoFocus={true}
                   className="bg-white w-full  py-3 rounded px-4 outline-none text-sm"
                 />
-                <div onClick={() => setShowPass(!showPass)} className="absolute right-0 bottom-3">
-                  {showPass ? <LiaEye className="mx-3 cursor-pointer"/> : <LiaEyeSlash className="mx-3 cursor-pointer"/>}
+                <div
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute right-0 bottom-3"
+                >
+                  {showPass ? (
+                    <LiaEye className="mx-3 cursor-pointer" />
+                  ) : (
+                    <LiaEyeSlash className="mx-3 cursor-pointer" />
+                  )}
                 </div>
               </div>
               <div className="relative mb-32">
                 <input
+                  onChange={(e) => setNewPassword(e.target.value)}
                   type={`${showConfirmPass ? "password" : "text"}`}
                   placeholder="Confirm password"
                   className="bg-white w-full py-3 rounded px-4 outline-none text-sm"
                 />
-                <div onClick={() => setShowConfirmPass(!showConfirmPass)} className="absolute right-0 bottom-3">
-                  {showConfirmPass ? <LiaEye className="mx-3 cursor-pointer"/> : <LiaEyeSlash className="mx-3 cursor-pointer"/>}
+                <div
+                  onClick={() => setShowConfirmPass(!showConfirmPass)}
+                  className="absolute right-0 bottom-3"
+                >
+                  {showConfirmPass ? (
+                    <LiaEye className="mx-3 cursor-pointer" />
+                  ) : (
+                    <LiaEyeSlash className="mx-3 cursor-pointer" />
+                  )}
                 </div>
               </div>
-              <div className="w-full" onClick={handleReset}>
-              <Button
-                  // isLoading={isLoading}
+              <div className="w-full">
+                <Button
+                  isLoading={isLoading}
                   text={"RESET"}
-                className={
-                  "w-full px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
-                }
-              />
+                  className={
+                    "w-full px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
+                  }
+                />
               </div>
             </form>
           </div>

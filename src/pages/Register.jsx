@@ -22,8 +22,9 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const {data} = await register(userData);
-    !data && console.log("Email already exist");
-    data?.message === "success" && nav("/verify-email")
+    console.log(data)
+    // !data && console.log("Email already exist");
+    data?.success && nav("/verify-email")
   };
 
   return (
@@ -38,7 +39,7 @@ export default function Register() {
             <input
               onChange={(e) => setName(e.target.value)}
               type="text"
-              placeholder="Enter your name"
+              placeholder="Enter your name" autoFocus={true}
               className="bg-white w-full py-3 rounded px-4 outline-none text-sm"
             />
             <input
@@ -88,7 +89,7 @@ export default function Register() {
                 <Button
                   text={"REGISTER"}
                   isLoading={isLoading}
-                  className={` w-full px-8 flex-grow text-white text-sm font-bold py-3 rounded`
+                  className={`bg-blue-600 w-full px-8 flex-grow text-white text-sm font-bold py-3 rounded`
                   }
                 />
               </div>

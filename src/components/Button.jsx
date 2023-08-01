@@ -3,7 +3,7 @@ import { BeatLoader } from "react-spinners";
 
 export default function Button({ text, className, isLoading }) {
   return (
-    <button disabled={isLoading} className={`flex items-center justify-center ${className}`}>
+    <button disabled={isLoading} className={`flex h-[44px] items-center justify-center ${className}`}>
       {!isLoading ? (
         text
       ) : (

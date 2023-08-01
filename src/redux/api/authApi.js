@@ -11,9 +11,9 @@ export const authApi = createApi({
         method: "POST",
         body: userData,
         headers: {
-          "app-id": "14a19ca6-1920-4643-b691-0540f2e2ca77",
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
           "app-secret":
-            "77f7d282-9a43-4754-955e-a6af9d6241c62945223c-ed31-4721-b96a-e7401ac65e0d",
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -26,9 +26,9 @@ export const authApi = createApi({
         method: "POST",
         body: user,
         headers: {
-          "app-id": "14a19ca6-1920-4643-b691-0540f2e2ca77",
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
           "app-secret":
-            "77f7d282-9a43-4754-955e-a6af9d6241c62945223c-ed31-4721-b96a-e7401ac65e0d",
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -40,9 +40,9 @@ export const authApi = createApi({
         url: "/logout",
         method: "POST",
         headers: {
-          "app-id": "14a19ca6-1920-4643-b691-0540f2e2ca77",
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
           "app-secret":
-            "77f7d282-9a43-4754-955e-a6af9d6241c62945223c-ed31-4721-b96a-e7401ac65e0d",
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
           authorization: `Bearer ${token}`,
         },
       }),
@@ -54,9 +54,9 @@ export const authApi = createApi({
         method: "POST",
         body: code,
         headers: {
-          "app-id": "14a19ca6-1920-4643-b691-0540f2e2ca77",
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
           "app-secret":
-            "77f7d282-9a43-4754-955e-a6af9d6241c62945223c-ed31-4721-b96a-e7401ac65e0d",
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
         },
       }),
       invalidatesTags: ["auth"],
@@ -67,25 +67,63 @@ export const authApi = createApi({
         method: "POST",
         body: code,
         headers: {
-          "app-id": "14a19ca6-1920-4643-b691-0540f2e2ca77",
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
           "app-secret":
-            "77f7d282-9a43-4754-955e-a6af9d6241c62945223c-ed31-4721-b96a-e7401ac65e0d",
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
+        },
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    forgot: builder.mutation({
+      query: (email) => ({
+        url: "/forget",
+        method: "POST",
+        body: email,
+        headers: {
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
+          "app-secret":
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
+        },
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    forgotCode: builder.mutation({
+      query: (code) => ({
+        url: "/forget/confirm",
+        method: "POST",
+        body: code,
+        headers: {
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
+          "app-secret":
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
         },
       }),
       invalidatesTags: ["auth"],
     }),
     changePassword: builder.mutation({
-      query: (code) => ({
+      query: (changeData) => ({
         url: "/password/change",
         method: "POST",
-        body: code,
+        body: changeData,
         headers: {
-          "app-id": "14a19ca6-1920-4643-b691-0540f2e2ca77",
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
           "app-secret":
-            "77f7d282-9a43-4754-955e-a6af9d6241c62945223c-ed31-4721-b96a-e7401ac65e0d",
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
         },
       }),
       invalidatesTags: ["auth"],
+    }),
+    getUserProfile: builder.query({
+      query: (token) => ({
+        url: "/profile",
+        headers: {
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
+          "app-secret":
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
+          authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["auth"],
     }),
   }),
 });
@@ -97,4 +135,7 @@ export const {
   useOtpConfirmMutation,
   useResendMutation,
   useChangePasswordMutation,
+  useForgotMutation,
+  useForgotCodeMutation,
+  useGetUserProfileQuery,
 } = authApi;

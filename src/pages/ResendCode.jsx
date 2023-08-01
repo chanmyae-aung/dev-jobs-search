@@ -13,7 +13,7 @@ export default function ResendCode() {
     e.preventDefault();
     const { data } = await resendEmail({ email });
     // console.log(data)
-    data?.message === "success" && nav("/verify-email");
+    data?.success && nav("/verify-email");
   };
   return (
     <main className="flex h-screen items-center justify-center">
@@ -34,7 +34,7 @@ export default function ResendCode() {
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Enter your email" autoFocus={true}
                 className="bg-white w-full py-3 mb-32 rounded px-4 outline-none text-sm"
               />
               <div className="w-full">

@@ -9,9 +9,9 @@ export const jobApi = createApi({
       query: (token) => ({
         url: "/job",
         headers: {
-          "app-id": "14a19ca6-1920-4643-b691-0540f2e2ca77",
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
           "app-secret":
-            "77f7d282-9a43-4754-955e-a6af9d6241c62945223c-ed31-4721-b96a-e7401ac65e0d",
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
           authorization: `Bearer ${token}`,
         },
       }),
@@ -21,9 +21,9 @@ export const jobApi = createApi({
       query: ({ id, token }) => ({
         url: `/job/${id}`,
         headers: {
-          "app-id": "14a19ca6-1920-4643-b691-0540f2e2ca77",
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
           "app-secret":
-            "77f7d282-9a43-4754-955e-a6af9d6241c62945223c-ed31-4721-b96a-e7401ac65e0d",
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
           authorization: `Bearer ${token}`,
         },
       }),

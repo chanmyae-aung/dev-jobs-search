@@ -9,6 +9,8 @@ import ResetPassword from "./pages/ResetPassword";
 import ResendCode from "./pages/ResendCode";
 import Detail from "./components/Detail";
 import LoginGuard from "./components/LoginGuard";
+import ForgotCode from "./pages/ForgotCode";
+import RouteGuard from "./components/RouteGuard";
 
 export default function App() {
   return (
@@ -22,12 +24,62 @@ export default function App() {
             </LoginGuard>
           }
         />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/reset" element={<ResetPassword />} />
-        <Route path="/resend" element={<ResendCode />} />
+        <Route
+          path="/register"
+          element={
+            <RouteGuard>
+              <Register />
+            </RouteGuard>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RouteGuard>
+              <Login />
+            </RouteGuard>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <RouteGuard>
+              <ForgotPassword />
+            </RouteGuard>
+          }
+        />
+        <Route
+          path="/forgot-code"
+          element={
+            <RouteGuard>
+              <ForgotCode />
+            </RouteGuard>
+          }
+        />
+        <Route
+          path="/verify-email"
+          element={
+            <RouteGuard>
+              <VerifyEmail />
+            </RouteGuard>
+          }
+        />
+        <Route
+          path="/reset"
+          element={
+            <RouteGuard>
+              <ResetPassword />
+            </RouteGuard>
+          }
+        />
+        <Route
+          path="/resend"
+          element={
+            <RouteGuard>
+              <ResendCode />
+            </RouteGuard>
+          }
+        />
         <Route
           path="/detail"
           element={
@@ -36,6 +88,7 @@ export default function App() {
             </LoginGuard>
           }
         />
+        <Route path="*" element={<Home />} />
       </Routes>
     </div>
   );
