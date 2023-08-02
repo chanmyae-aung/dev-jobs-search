@@ -11,10 +11,10 @@ export default function VerifyEmail() {
   const nav = useNavigate();
   const dispatch = useDispatch()
   const [code, setCode] = useState("")
-  const [resend, setResend] = useState(false)
+  const [resend, setResend] = useState(true)
   useEffect(() => {
     setTimeout(() => {
-      setResend(true)
+      setResend(false)
     }, 1000 * 60)
   },[])
   const [otpCode, {isLoading}] = useOtpConfirmMutation()
@@ -56,7 +56,7 @@ export default function VerifyEmail() {
                 <div className="flex gap-2 mb-3 text-sm">
                   <p>Didn't receive the code?</p>
                   <Link to={"/resend"}>
-                    <span className="text-primary font-bold">Resend</span>
+                    <span className={`${resend && "hidden"} text-primary font-bold`}>Resend</span>
                   </Link>
                 </div>
                 <div className="w-full" onClick={handleVerify}>

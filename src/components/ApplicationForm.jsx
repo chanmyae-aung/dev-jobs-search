@@ -5,12 +5,12 @@ import {RxCross1} from 'react-icons/rx'
 export default function ApplicationForm({toggleModal}) {
     const dark = useSelector((state) => state.dark.dark)
   return (
-    <main className={`${dark ? "bg-[#303846]": "bg-slate-200"} lg:h-full md:w-[80%] lg:w-[50%] absolute mx-auto p-10 rounded`}>
+    <main className={`${dark ? "bg-[#303846]": "bg-slate-200"} h-screen w-screen md:h-fit md:w-[80%] lg:w-[50%] absolute mx-auto p-10 rounded`}>
         {/* <button  className="flex justify-end w-full">
             <RxCross1/>
         </button> */}
       <h1 className={`${dark && "text-slate-50"} text-center mb-3`}>Application Form</h1>
-      <form className={`flex text-sm flex-col gap-3 ${dark ? "text-slate-300": "text-slate-700"}`}>
+      <form className={`flex w-full text-sm flex-col gap-3 ${dark ? "text-slate-300": "text-slate-700"}`}>
         <section className="flex flex-col md:flex-row gap-5 items-center">
         <div className={`md:w-[50%]`}>
           <label className="font-semibold">Name <span className="text-red-500">*</span></label>

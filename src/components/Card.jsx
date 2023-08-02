@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useGetJobsQuery } from "../redux/api/jobApi";
@@ -7,24 +7,24 @@ import { useGetJobsQuery } from "../redux/api/jobApi";
 export default function Card() {
   const dark = useSelector((state) => state.dark.dark);
   const token = Cookies.get("token");
-
+  const [page, setPage] = useState(1)
+  const [hide, setHide] = useState(false)
   const { data } = useGetJobsQuery(token);
   const jobs = data?.data.data;
   const nav = useNavigate();
-  const handleClick = () => {
-    // nav(`/detail:${id}`)
-    nav("/detail");
-  };
+  const searchJobs = useSelector((state) => (state.jobSlice.jobs))
+  console.log(searchJobs)
 
-  // let timestamp = []
-  // console.log(timestamp)
+
   return (
     <div className="flex flex-wrap justify-between gap-10 px-5 md:px-0">
       {jobs?.map((i) => {
-        // timestamp.push(i.created_at) 
         return (
           <main key={i.id}
-            onClick={handleClick}
+            onClick={() => {
+              setHide(true)
+              nav(`/detail/${i.id}`)
+            }}
             className={`${
               dark ? "bg-[#374151]" : "bg-white"
             } transition-all  ease-linear duration-300 p-5 rounded cursor-pointer w-[100%] md:w-[47%] xl:w-[30.5%]`}

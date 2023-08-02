@@ -52,7 +52,7 @@ export default function UserProfile() {
         <hr />
         <button
           onClick={handleLogout}
-          className="flex w-full justify-start mt-5 text-sm font-semibold pt-3 items-center gap-3"
+          className="flex w-full ml-16 justify-start mt-5 text-sm font-semibold pt-3 items-center gap-3"
         >
           <RiLogoutCircleRLine />
           <p>Logout</p>

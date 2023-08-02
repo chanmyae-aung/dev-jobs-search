@@ -7,7 +7,7 @@ import UserProfile from "./UserProfile";
 import SearchBar from "./SearchBar";
 import { useGetUserProfileQuery } from "../redux/api/authApi";
 
-export default function Navbar() {
+export default function Navbar({hide}) {
   const dark = useSelector((state) => state.dark.dark);
   // const user = JSON.parse(Cookies.get('user')) // throw an error => undefined is not valid in json.parse
   // const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null; // to prevent above error
@@ -51,13 +51,13 @@ export default function Navbar() {
                 </h2>
               )}
             </div>
-            <div className={`${show ? "block": "hidden"} fixed z-50 shadow-lg top-12 rounded right-0`}>
+            <div className={`${show ? "scale-x-1": "scale-x-0"} origin-right transition-all duration-300 absolute z-50 shadow-lg top-12 rounded right-0`}>
               <UserProfile />
             </div>
           </div>
         </div>
       </section>
-      <div>
+      <div className={hide && "hidden"}>
         <SearchBar/>
       </div>
     </main>

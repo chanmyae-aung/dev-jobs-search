@@ -2,20 +2,38 @@ import React, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { FaMapMarkerAlt, FaFilter } from "react-icons/fa";
 import Button from "./Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import { useSearchJobsMutation } from "../redux/api/jobApi";
+import { searchJobs } from "../redux/features/jobSlice";
 
 export default function SearchBar() {
   const [filter, setFilter] = useState(false);
   const dark = useSelector((state) => state.dark.dark);
+  const token = Cookies.get("token")
   // const dark = JSON.parse(Cookies.get("dark"));
+
+  const [position, setPosition] = useState(null)
+  const [country, setCountry] = useState(null)
+  const [shift, setShift] = useState(0)
+  const dispatch = useDispatch()
+
+  const [search] = useSearchJobsMutation()
+  const searchData = {position, country, shift}
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    const {data} = await search({searchData, token})
+    dispatch(searchJobs({jobs: searchData}))
+    console.log(data)
+  }
 
   return (
     <main className="sticky top-24 shadow-md">
-      <section className="hidden md:flex ">
+      <form onSubmit={handleSearch} className="hidden md:flex ">
         <div className="relative w-full lg:w-[40%] rounded-l">
           <BsSearch className="text-primary absolute mx-4 top-[18px] " />
           <input
+          onChange={(e) => setPosition(e.target.value)}
             type="text"
             className={`${
               dark ? "bg-[#374151] text-white" : "bg-white"
@@ -26,6 +44,7 @@ export default function SearchBar() {
         <div className={` relative w-full lg:w-[30%] border-x`}>
           <FaMapMarkerAlt className="text-primary absolute mx-4 top-[18px]" />
           <input
+          onChange={(e) => setCountry(e.target.value)}
             type="text"
             className={`${
               dark ? "bg-[#374151] text-white" : "bg-white"
@@ -39,7 +58,7 @@ export default function SearchBar() {
           } transition-all ease-linear duration-300 rounded-r z-10 flex items-center justify-between w-full lg:w-[30%] py-2 pl-4 pr-2 outline-none`}
         >
           <div className="flex gap-4">
-            <input type="checkbox" id="checkbox" />
+            <input type="checkbox" id="checkbox" onChange={() => setShift(!shift)} />
             <label htmlFor="checkbox" className="flex gap-1 cursor-pointer">
               Full time <span className="hidden xl:flex">only</span>
             </label>
@@ -49,7 +68,7 @@ export default function SearchBar() {
             className={"bg-blue-600 text-white font-bold px-4 py-1.5 h-fit rounded"}
           />
         </div>
-      </section>
+      </form>
       {/* mobile view */}
       <div className="relative w-full md:hidden lg:w-[40%]">
         {!filter ? (

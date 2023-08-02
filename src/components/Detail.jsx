@@ -1,16 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 import ApplicationForm from "./ApplicationForm";
-import { useAnimate } from "framer-motion"
+import { useAnimate } from "framer-motion";
+import { useGetDetailQuery } from "../redux/api/jobApi";
+import { useLocation, useParams } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Detail() {
+  const token = Cookies.get("token");
+  const location = useLocation();
+  console.log(location);
+
   const [modal, setModal] = useState(false);
   const toggleModal = () => {
     setModal(!modal);
   };
-  const dark = useSelector(state => state.dark.dark)
-  // const dark = JSON.parse(Cookies.get("dark"))
+  const { id } = useParams();
+  const { data } = useGetDetailQuery({ token, id });
+  console.log(data?.data);
+  const dark = useSelector((state) => state.dark.dark);
+
+  const handleDownload = () => {
+    const imageUrl = data?.data.company_image;
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', imageUrl, true);
+    xhr.responseType = 'blob';
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        const blob = new Blob([xhr.response]);
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Cham_Myae.jpg'; // Change the filename here if needed
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      }
+    };
+    xhr.send();
+  };
+
   return (
     <>
       <main
@@ -18,24 +48,31 @@ export default function Detail() {
           dark ? "bg-[#22262F] text-slate-200" : "bg-slate-100"
         } transition-all ease-linear duration-300 relative h-screen overflow-y-scroll`}
       >
-        <Navbar />
+        <Navbar hide={true} />
         <section
           className={`${
             dark ? "bg-[#374151] text-slate-200" : "bg-white"
-          } transition-all ease-linear duration-300 lg:w-[50%] mx-auto sticky top-[88px] shadow-sm left-0 right-0 lg:rounded py-3 lg:py-8 -mt-8`}
+          } transition-all ease-linear flex items-center duration-300 lg:w-[50%] mx-auto sticky z-10 top-[88px] shadow-sm left-0 right-0 lg:rounded -mt-8 overflow-hidden`}
         >
           <div className={`flex items-center`}>
-            <div className="bg-orange-500 w-[15%]">
-              <h4 className="h-full">Logo</h4>
+            <div className="bg-orange-500 w-16  md:w-24 h-16  md:h-24">
+              <img onClick={handleDownload}
+                className="w-full h-full object-cover"
+                src={data?.data.company_image}
+                alt=""
+              />
             </div>
-            <div className="w-[85%] flex items-center justify-between px-8">
-              <div>
-                <h4 className="text-lg font-bold">Scoot</h4>
-                <p>scoot.com</p>
+            <div className="w-[85%] flex items-center justify-between px-3 md:px-8">
+              <div className="">
+                <h4 className="text-lg font-bold">{data?.data.company}</h4>
+                <p>{data?.data.company_website}</p>
               </div>
-              <button className="px-5 py-2.5 h-fit rounded bg-blue-50 text-blue-600 text-sm font-bold">
+              <a
+                href={data?.data.company_website}
+                className="px-5 py-2.5 h-fit rounded bg-blue-50 text-blue-600 text-sm font-bold"
+              >
                 Company Site
-              </button>
+              </a>
             </div>
           </div>
         </section>
@@ -48,16 +85,18 @@ export default function Detail() {
             <div>
               <div className="flex gap-3">
                 <p>5h ago.</p>
-                <p>Full Time</p>
+                <p>{data?.data.shift ? "Full Time" : "Part Time"}</p>
               </div>
               <h1
                 className={`${
                   dark && "text-white"
                 } transition-all ease-linear duration-300 my-2 `}
               >
-                Senior Software Engineer
+                {data?.data.position}
               </h1>
-              <h4 className="font-semibold text-primary">United Kingdom</h4>
+              <h4 className="font-semibold text-primary">
+                {data?.data.country}
+              </h4>
             </div>
             <button
               onClick={toggleModal}
@@ -66,27 +105,10 @@ export default function Detail() {
               Apply Now
             </button>
           </div>
-          <p className="py-10">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-            doloremque magnam error reprehenderit, rem officiis quaerat
-            architecto, quam obcaecati eligendi deserunt saepe aperiam eos ab
-            aliquam dicta quis, repellat dolore. Suscipit praesentium,
-            voluptatibus architecto ipsam, delectus fugiat cupiditate provident
-            animi modi, error ad nobis velit autem ex reprehenderit dolore!
-            Voluptate error corrupti dolorem neque vero! Ab corrupti atque cum
-            impedit? Praesentium asperiores ex tempora? Debitis at numquam
-            maxime? Deserunt, placeat saepe natus rem, dignissimos ratione
-            provident a illo voluptatem doloremque dolores optio? Expedita ea
-            fugit quod cupiditate vero minus laudantium?
-          </p>
+          <p className="py-10">{data?.data.job_description}</p>
           <div>
             <h4 className="sub-title">Requirements</h4>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam qui id culpa cumque cum maiores beatae impedit alias
-              necessitatibus tenetur neque, ab dolore, ratione pariatur fugit
-              animi, nostrum aliquid iusto.
-            </p>
+            <p>{data?.data.requirement}</p>
             <ul>
               <li>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -106,12 +128,7 @@ export default function Detail() {
           </div>
           <div className="mt-10">
             <h4 className="sub-title">What You Will Do</h4>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laboriosam qui id culpa cumque cum maiores beatae impedit alias
-              necessitatibus tenetur neque, ab dolore, ratione pariatur fugit
-              animi, nostrum aliquid iusto.
-            </p>
+            <p>{data?.data.responsibilities}</p>
             <ul>
               <li>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -157,7 +174,7 @@ export default function Detail() {
       </main>
       {/* Application Form */}
       {modal && (
-        <main className="w-screen h-screen flex items-center justify-center absolute top-0 left-0 bg-transparent backdrop-brightness-50">
+        <main className="w-screen h-screen flex items-center justify-center absolute top-0 z-50 left-0 bg-transparent backdrop-brightness-50">
           <ApplicationForm toggleModal={toggleModal} />
         </main>
       )}

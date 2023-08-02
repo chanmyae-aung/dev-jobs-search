@@ -5,6 +5,7 @@ import SearchBar from "../components/SearchBar";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useGetJobsQuery } from "../redux/api/jobApi";
+import Button from "../components/Button";
 
 export default function Home() {
   const dark = useSelector(state => state.dark.dark)
@@ -21,6 +22,7 @@ export default function Home() {
         {/* <SearchBar /> */}
         <div className=" mt-28">
           <Card />
+          <Button text={"Load More"} className={`bg-blue-600 text-white px-8 rounded my-5 mx-auto`}/>
         </div>
       </div>
     </main>

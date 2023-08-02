@@ -7,7 +7,7 @@ export const jobApi = createApi({
   endpoints: (builder) => ({
     getJobs: builder.query({
       query: (token) => ({
-        url: "/job",
+        url: `/job`,
         headers: {
           "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
           "app-secret":
@@ -29,7 +29,21 @@ export const jobApi = createApi({
       }),
       providesTags: ["job"],
     }),
+    searchJobs: builder.mutation({
+      query: ({searchData, token}) => ({
+        url: `job`,
+        method: "POST",
+        body: searchData,
+        headers: {
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
+          "app-secret":
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
+          authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["job"]
+    })
   }),
 });
 
-export const { useGetJobsQuery, useGetDetailQuery } = jobApi;
+export const { useGetJobsQuery, useGetDetailQuery, useSearchJobsMutation } = jobApi;
