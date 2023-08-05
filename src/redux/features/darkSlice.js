@@ -13,7 +13,7 @@ export const darkSlice = createSlice({
     switchMode: (state) => {
       state.dark = !state.dark;
         // Cookies.set("dark", state.dark);
-      // state.dark = state.dark === false ? Cookies.set("dark", true ) : Cookies.set("dark", false);
+      Cookies.set("dark", state.dark )
     },
   },
 });

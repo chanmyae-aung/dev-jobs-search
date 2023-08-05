@@ -9,8 +9,10 @@ import { addUser } from "../redux/features/authSlice";
 export default function Register() {
   const [showPass, setShowPass] = useState(true);
   const [showConfirmPass, setShowConfirmPass] = useState(true);
+  const [passwordError, setPasswordError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   const nav = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,17 +45,28 @@ export default function Register() {
               className="bg-white w-full py-3 rounded px-4 outline-none text-sm"
             />
             <input
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                emailError && setEmailError(false);
+              }}
               type="email"
               placeholder="Enter your email"
-              className="bg-white w-full py-3 rounded px-4 outline-none text-sm"
+              autoFocus={true}
+              className={`${
+                emailError && "text-red-500 border border-red-500"
+              } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
             />
             <div className="relative">
               <input
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  passwordError && setPasswordError(false);
+                }}
                 type={`${showPass ? "password" : "text"}`}
-                placeholder="New password"
-                className="bg-white w-full  py-3 rounded px-4 outline-none text-sm"
+                placeholder="Enter your password"
+                className={`${
+                  passwordError && "text-red-500 border border-red-500"
+                } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
               />
               <div
                 onClick={() => setShowPass(!showPass)}
@@ -70,8 +83,10 @@ export default function Register() {
               <input
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 type={`${showConfirmPass ? "password" : "text"}`}
-                placeholder="Confirm password"
-                className="bg-white w-full py-3 rounded px-4 outline-none text-sm"
+                placeholder="Confirm your password"
+                className={`${
+                  passwordError && "text-red-500 border border-red-500"
+                } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
               />
               <div
                 onClick={() => setShowConfirmPass(!showConfirmPass)}

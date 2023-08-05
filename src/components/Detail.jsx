@@ -6,6 +6,7 @@ import { useAnimate } from "framer-motion";
 import { useGetDetailQuery } from "../redux/api/jobApi";
 import { useLocation, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import { ClipLoader } from "react-spinners";
 
 export default function Detail() {
   const token = Cookies.get("token");
@@ -17,7 +18,7 @@ export default function Detail() {
     setModal(!modal);
   };
   const { id } = useParams();
-  const { data } = useGetDetailQuery({ token, id });
+  const { data, isLoading } = useGetDetailQuery({ token, id });
   console.log(data?.data);
   const dark = useSelector((state) => state.dark.dark);
 
@@ -41,6 +42,14 @@ export default function Detail() {
     xhr.send();
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen items-center flex justify-center">
+        <ClipLoader color="#2563EB"/>
+      </div>
+    );
+  }
+
   return (
     <>
       <main
@@ -54,7 +63,7 @@ export default function Detail() {
             dark ? "bg-[#374151] text-slate-200" : "bg-white"
           } transition-all ease-linear flex items-center duration-300 lg:w-[50%] mx-auto sticky z-10 top-[88px] shadow-sm left-0 right-0 lg:rounded -mt-8 overflow-hidden`}
         >
-          <div className={`flex items-center`}>
+          <div className={`flex items-center w-full`}>
             <div className="bg-orange-500 w-16  md:w-24 h-16  md:h-24">
               <img onClick={handleDownload}
                 className="w-full h-full object-cover"
@@ -152,7 +161,7 @@ export default function Detail() {
             dark ? "bg-[#374151]" : "bg-white"
           } transition-all ease-linear duration-300 mt-5 lg:mt-10`}
         >
-          <div className="flex flex-col lg:flex-row lg:w-[50%] mx-auto py-3 lg:py-5 items-center justify-between">
+          <div className="flex flex-col md:flex-row px-10 lg:px-0 lg:w-[50%] mx-auto py-3 lg:py-5 items-center justify-between">
             <div className="flex flex-col-reverse lg:flex-col items-center lg:items-start">
               <h1
                 className={`${
@@ -175,7 +184,7 @@ export default function Detail() {
       {/* Application Form */}
       {modal && (
         <main className="w-screen h-screen flex items-center justify-center absolute top-0 z-50 left-0 bg-transparent backdrop-brightness-50">
-          <ApplicationForm toggleModal={toggleModal} />
+          <ApplicationForm job_id={data?.data.id} position={data?.data.position} toggleModal={toggleModal} />
         </main>
       )}
     </>

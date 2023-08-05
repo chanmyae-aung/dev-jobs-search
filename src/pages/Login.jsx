@@ -10,17 +10,22 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(true);
+  const [error, setError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   const nav = useNavigate();
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
   const user = { email, password };
-
+  console.log(error);
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
       const { data } = await login(user);
-      console.log(data);
-      data?.success && dispatch(addUser({ user: data?.data, token: data?.data.token }));
+      data?.message === "User doesn't exist" && setEmailError(!emailError);
+      data?.message === "Login Fail" && setError(!error);
+      // console.log(data);
+      data?.success &&
+        dispatch(addUser({ user: data?.data, token: data?.data.token }));
       data?.data.token && nav("/");
     } catch (error) {
       console.log(error);
@@ -39,18 +44,28 @@ export default function Login() {
           </p>
           <form onSubmit={handleLogin} className="flex w-full flex-col gap-3">
             <input
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                emailError && setEmailError(false);
+              }}
               type="email"
               placeholder="Enter your email"
               autoFocus={true}
-              className="bg-white w-full py-3 rounded px-4 outline-none text-sm"
+              className={`${
+                emailError && "text-red-500 border border-red-500"
+              } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
             />
             <div className="relative">
               <input
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  error && setError(false);
+                }}
                 type={`${showPass ? "password" : "text"}`}
-                placeholder="New password"
-                className="bg-white w-full  py-3 rounded px-4 outline-none text-sm"
+                placeholder="Enter your password"
+                className={`${
+                  error && "text-red-500 border border-red-500"
+                } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
               />
               <div
                 onClick={() => setShowPass(!showPass)}
@@ -77,13 +92,13 @@ export default function Login() {
                   "w-fit px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
                 }
               />
-              <button className="flex gap-3 bg-white items-center p-2.5 border-blue-600 text-slate-500 px-5 border rounded w-fit">
+              {/* <button className="flex gap-3 bg-white items-center p-2.5 border-blue-600 text-slate-500 px-5 border rounded w-fit">
                 <img
                   className="w-6"
                   src="https://img.icons8.com/?size=1x&id=17949&format=png"
                   alt=""
                 />
-              </button>
+              </button> */}
             </div>
           </form>
           <div className="flex gap-3 text-sm my-3">

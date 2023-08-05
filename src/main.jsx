@@ -5,25 +5,16 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-        refetchOnWindowFocus: false, // default: true
-        staleTime: 1000 * 60 * 60 * 24,
-    },
-},
-})
+import { StyledEngineProvider } from "@mui/joy";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
+        <StyledEngineProvider injectFirst>
           <App />
-        </QueryClientProvider>
+        </StyledEngineProvider>
       </Provider>
     </BrowserRouter>
-  </React.StrictMode>
+  //</React.StrictMode>
 );

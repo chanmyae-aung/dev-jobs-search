@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { switchMode } from "../redux/features/darkSlice";
@@ -8,7 +8,11 @@ function Switch() {
   const [isSelected, setSelected] = useState(false);
   const dispatch = useDispatch();
   const dark = useSelector(state => state.dark.dark)
-  // const dark = JSON.parse(Cookies.get("dark"));
+  // const dark = JSON.parse(Cookies.get("dark"))
+
+  useEffect(() => {
+    dark && setSelected(true)
+  },[])
   // console.log(dark);
 
   return (

@@ -8,10 +8,9 @@ import SearchBar from "./SearchBar";
 import { useGetUserProfileQuery } from "../redux/api/authApi";
 
 export default function Navbar({hide}) {
-  const dark = useSelector((state) => state.dark.dark);
-  // const user = JSON.parse(Cookies.get('user')) // throw an error => undefined is not valid in json.parse
-  // const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null; // to prevent above error
-  // console.log(user);
+  // const dark = JSON.parse(Cookies.get("dark"))
+  const dark = useSelector(state => state.dark.dark)
+  console.log(dark)
   const token = Cookies.get("token")
   const { data: user } = useGetUserProfileQuery(token);
 

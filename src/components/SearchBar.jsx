@@ -5,17 +5,18 @@ import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useSearchJobsMutation } from "../redux/api/jobApi";
-import { searchJobs } from "../redux/features/jobSlice";
+import { searchJobs} from "../redux/features/jobSlice";
 
 export default function SearchBar() {
   const [filter, setFilter] = useState(false);
   const dark = useSelector((state) => state.dark.dark);
   const token = Cookies.get("token")
-  // const dark = JSON.parse(Cookies.get("dark"));
+  // const dark = JSON.parse(Cookies.get("dark"))
 
   const [position, setPosition] = useState(null)
   const [country, setCountry] = useState(null)
-  const [shift, setShift] = useState(0)
+  const [shift, setShift] = useState(null)
+  console.log(shift)
   const dispatch = useDispatch()
 
   const [search] = useSearchJobsMutation()
@@ -23,8 +24,10 @@ export default function SearchBar() {
   const handleSearch = async (e) => {
     e.preventDefault()
     const {data} = await search({searchData, token})
-    dispatch(searchJobs({jobs: searchData}))
+    console.log(searchData)
     console.log(data)
+    searchData && dispatch(searchJobs({jobs: data}))
+    dispatch(search({search: searchData}))
   }
 
   return (
@@ -33,7 +36,7 @@ export default function SearchBar() {
         <div className="relative w-full lg:w-[40%] rounded-l">
           <BsSearch className="text-primary absolute mx-4 top-[18px] " />
           <input
-          onChange={(e) => setPosition(e.target.value)}
+          onChange={(e) => setPosition(e.target.value ? e.target.value : null)}
             type="text"
             className={`${
               dark ? "bg-[#374151] text-white" : "bg-white"
@@ -44,7 +47,7 @@ export default function SearchBar() {
         <div className={` relative w-full lg:w-[30%] border-x`}>
           <FaMapMarkerAlt className="text-primary absolute mx-4 top-[18px]" />
           <input
-          onChange={(e) => setCountry(e.target.value)}
+          onChange={(e) => setCountry(e.target.value ? e.target.value : null)}
             type="text"
             className={`${
               dark ? "bg-[#374151] text-white" : "bg-white"
@@ -58,7 +61,7 @@ export default function SearchBar() {
           } transition-all ease-linear duration-300 rounded-r z-10 flex items-center justify-between w-full lg:w-[30%] py-2 pl-4 pr-2 outline-none`}
         >
           <div className="flex gap-4">
-            <input type="checkbox" id="checkbox" onChange={() => setShift(!shift)} />
+            <input type="checkbox" id="checkbox" onChange={(e) => e.target.checked ? setShift(1) : setShift(null)} />
             <label htmlFor="checkbox" className="flex gap-1 cursor-pointer">
               Full time <span className="hidden xl:flex">only</span>
             </label>
@@ -70,11 +73,12 @@ export default function SearchBar() {
         </div>
       </form>
       {/* mobile view */}
-      <div className="relative w-full md:hidden lg:w-[40%]">
+      <form onSubmit={handleSearch} className="relative w-full md:hidden lg:w-[40%]">
         {!filter ? (
           <div>
             <BsSearch className="text-primary absolute mx-4 top-[18px] " />
             <input
+            onChange={(e) => setPosition(e.target.value ? e.target.value : null)}
               type="text"
               className={`${
                 dark ? "bg-[#374151] text-white" : "bg-white"
@@ -86,6 +90,7 @@ export default function SearchBar() {
           <div>
             <FaMapMarkerAlt className="text-primary absolute mx-4 top-[18px]" />
             <input
+            onChange={(e) => setCountry(e.target.value ? e.target.value : null)}
               type="text"
               className={`${
                 dark ? "bg-[#374151] text-white" : "bg-white"
@@ -97,10 +102,10 @@ export default function SearchBar() {
         <FaFilter
           onClick={() => setFilter(!filter)}
           className={`${
-            filter && "text-blue-600"
+            filter && "text-blue-700"
           } cursor-pointer text-lg text-slate-400 absolute mx-4 top-[18px] right-0`}
         />
-      </div>
+      </form>
     </main>
   );
 }

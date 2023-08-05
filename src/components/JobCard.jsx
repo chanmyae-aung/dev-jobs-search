@@ -1,32 +1,58 @@
 import Cookies from "js-cookie";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useGetJobsQuery } from "../redux/api/jobApi";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Button from "./Button";
-import { addJobs, nextPage } from "../redux/features/jobSlice";
+import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
-export default function Card() {
-  const dark = useSelector((state) => state.dark.dark);
+export default function JobCard() {
   const token = Cookies.get("token");
   const nav = useNavigate();
-  const dispatch = useDispatch();
-  const currentPage = useSelector((state) => state.jobSlice.currentPage);
-  const { data, isLoading } = useGetJobsQuery({ token, currentPage });
-  const [lastPage, setLastPage] = useState(data?.data.last_page);
-  
-  const jobs = data?.data.data;
   const [hide, setHide] = useState(false);
+  const dark = useSelector((state) => state.dark.dark);
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const searchJobs = useSelector((state) => state.jobSlice.jobs?.data.data);
-  const morejob = useSelector((state) => state?.jobSlice.moreJobs);
-  const filterJobs = searchJobs && searchJobs.length !== 12 ? searchJobs : morejob;
+  console.log(searchJobs)
+  // useEffect(() => {
+  //   setIsLoading(true)
+  // },[])
 
-  const handleLoadMore = () => {
-    dispatch(addJobs({ moreJobs: jobs }));
-    dispatch(nextPage());
+  useEffect(() => {
+    fetchData();
+  }, [currentPage]);
+  
+  const fetchData = async () => {
+    try {
+      // setIsLoading(true);
+      const res = await fetch(
+        `http://159.223.80.82/api/v1/job?page=${currentPage}`,
+        {
+          headers: {
+            "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
+            "app-secret":
+              "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const json = await res.json();
+      const jobs = json.data.data;
+      setLastPage(json.data.last_page);
+      setData((prev) => [...prev, ...jobs]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }finally {
+      setIsLoading(false); // Set loading to false after fetching (success or error)
+    }
   };
-
+  console.log(lastPage);
+  const handleLoadMore = () => {
+    // setIsLoading(true)
+    setCurrentPage((prev) => prev + 1);
+  };
 
   if (isLoading) {
     return (
@@ -35,13 +61,12 @@ export default function Card() {
       </div>
     );
   }
-
   return (
-    <div className="flex flex-wrap justify-between gap-10 px-5 md:px-0">
-      {filterJobs?.map((i) => {
+    <div className="flex flex-wrap justify-between mb-5 gap-10 px-5 md:px-0">
+      {data?.map((i) => {
         return (
           <main
-            key={i.id}
+            key={`${i.id}-${i.company}`}
             onClick={() => {
               setHide(true);
               nav(`/detail/${i.id}`);
