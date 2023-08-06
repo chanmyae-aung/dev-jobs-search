@@ -31,7 +31,7 @@ export default function UserProfile() {
       <section className="flex flex-col items-center">
         <div className="flex items-center gap-3">
           <div
-            className={`bg-orange-500 w-10 h-10 p-1 rounded-full border flex items-center justify-center cursor-pointer`}
+            className={`bg-orange-500 w-10 h-10 rounded-full border flex items-center justify-center cursor-pointer`}
           >
             {user?.data.profile_image ? (
               <img

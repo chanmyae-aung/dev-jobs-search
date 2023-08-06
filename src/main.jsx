@@ -6,9 +6,10 @@ import { BrowserRouter } from "react-router-dom";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { StyledEngineProvider } from "@mui/joy";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  //<React.StrictMode>
+  <GoogleOAuthProvider clientId="1070274457636-j269r83606paicmua2qc87ifkehce303.apps.googleusercontent.com">
     <BrowserRouter>
       <Provider store={store}>
         <StyledEngineProvider injectFirst>
@@ -16,5 +17,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </StyledEngineProvider>
       </Provider>
     </BrowserRouter>
-  //</React.StrictMode>
+  </GoogleOAuthProvider>
 );

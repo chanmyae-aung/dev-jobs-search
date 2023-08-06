@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useGetJobsQuery } from "../redux/api/jobApi";
@@ -20,14 +20,27 @@ export default function Card() {
   const [hide, setHide] = useState(false);
   const searchJobs = useSelector((state) => state.jobSlice.jobs?.data.data);
   const morejob = useSelector((state) => state?.jobSlice.moreJobs);
-  const filterJobs = searchJobs && searchJobs.length !== 12 ? searchJobs : morejob;
+  console.log(morejob)
+  const [jobData, setJobData] = useState([])
+  const filterJobs = searchJobs && searchJobs.length !== 12 ? searchJobs : jobData;
 
+  useEffect(() => {
+    if (Array.isArray(jobs)) {
+      setJobData((prevJobData) => [...prevJobData, ...jobs]);
+    }
+    dispatch(addJobs({ moreJobs: jobData }));
+  },[data])
+  // useMemo(() => {
+  //   if (Array.isArray(jobs)) {
+  //     setJobData((prevJobData) => [...prevJobData, ...jobs]);
+  //   }
+  // },[data])
+  console.log(jobData)
   const handleLoadMore = () => {
-    dispatch(addJobs({ moreJobs: jobs }));
     dispatch(nextPage());
   };
 
-
+ console.log(currentPage)
   if (isLoading) {
     return (
       <div className="w-full flex justify-center">
