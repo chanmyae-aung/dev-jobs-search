@@ -20,21 +20,6 @@ export const authApi = createApi({
       }),
       invalidatesTags: ["auth"],
     }),
-    googleLogin: builder.mutation({
-      query: (user) => ({
-        url: "/google/login",
-        method: "POST",
-        body: user,
-        headers: {
-          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
-          "app-secret":
-            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }),
-      invalidatesTags: ['auth'],
-    }),
     login: builder.mutation({
       query: (user) => ({
         url: "/mail/login",
@@ -145,7 +130,6 @@ export const authApi = createApi({
 
 export const {
   useRegisterMutation,
-  useGoogleLoginMutation,
   useLoginMutation,
   useLogoutMutation,
   useOtpConfirmMutation,

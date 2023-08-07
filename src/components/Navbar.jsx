@@ -10,7 +10,10 @@ import { useGetUserProfileQuery } from "../redux/api/authApi";
 export default function Navbar({hide}) {
   // const dark = JSON.parse(Cookies.get("dark"))
   const dark = useSelector(state => state.dark.dark)
-  console.log(dark)
+  const showHero = useSelector((state) => state.jobSlice.hero)
+  // const hideSearch = useSelector((state) => state.jobSlice.hideSearch)
+  // console.log(hideSearch)
+  
   const token = Cookies.get("token")
   const { data: user } = useGetUserProfileQuery(token);
 
@@ -22,12 +25,12 @@ export default function Navbar({hide}) {
   return (
     <main
       className={` ${
-        dark ? "bg-[#333A45]" : "bg-blue-600"
-      } transition-all ease-linear duration-300 sticky top-0 z-10 lg:rounded-bl-[4rem] px-5 md:px-20 lg:px-40 h-[120px]`}
+       !showHero && dark ? "bg-[#333A45]" : `${ showHero ? "bg-transparent" : "bg-blue-600"}`
+      } transition-all ease-linear w-full duration-300 sticky top-0 z-10 lg:rounded-bl-[4rem] px-5 md:px-20 lg:px-40 h-[120px]`}
     >
       <section className=" text-white flex items-center justify-between">
         <div>
-          <h1 className="text-white text-xl font-bold italic py-8">devjobs</h1>
+          <h1 className={`${showHero ? "text-blue-600" : "text-white"} text-xl font-bold italic py-8`}>devjobs</h1>
         </div>
         <div className="flex gap-4 items-center">
           <div className="flex items-center">
@@ -37,7 +40,7 @@ export default function Navbar({hide}) {
           </div>
           <div className="relative">
             <div onClick={toggleShow}
-              className={`bg-orange-500 w-10 h-10 rounded-full border flex items-center justify-center cursor-pointer`}
+              className={`bg-orange-500 w-10 h-10 rounded-full border-2 flex items-center justify-center cursor-pointer`}
             >
               {user?.data.profile_image ? (
                 <img
@@ -56,7 +59,7 @@ export default function Navbar({hide}) {
           </div>
         </div>
       </section>
-      <div className={hide && "hidden"}>
+      <div className={hide || showHero && "hidden"}>
         <SearchBar/>
       </div>
     </main>

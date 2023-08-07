@@ -34,3 +34,10 @@ ul {
 .dark{
   @apply bg-[#333945]
 }
+.bg-img{
+  background-image: url("https://images.pexels.com/photos/2566581/pexels-photo-2566581.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+}

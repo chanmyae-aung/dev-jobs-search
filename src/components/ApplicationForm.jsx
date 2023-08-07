@@ -1,53 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { RxCross1 } from "react-icons/rx";
 import { useGetUserProfileQuery } from "../redux/api/authApi";
 import Cookies from "js-cookie";
-import { useApplyMutation } from "../redux/api/jobApi";
+// import { useApplyMutation } from "../redux/api/jobApi";
+import axios from "axios";
 
 export default function ApplicationForm({ toggleModal, position, job_id }) {
   const dark = useSelector((state) => state.dark.dark);
   const token = Cookies.get("token");
   const { data: user } = useGetUserProfileQuery(token);
-  // console.log(user);
   const user_id = user?.data.id;
   const [name, setName] = useState(user?.data.name);
   const [email, setEmail] = useState(user?.data.email);
-  // const position = position
   const [phone, setPhone] = useState("");
   const [portfolio, setPortfolio] = useState("");
   const [cv, setCv] = useState("");
   const [experiences, setExperiences] = useState("");
-  const [slary, setSalary] = useState("");
-  const [apply] = useApplyMutation();
-  const applyData = {
-    name,
-    email,
-    phone,
-    portfolio,
-    position,
-    cv,
-    experiences,
-    slary,
-    user_id,
-    job_id,
-  };
+  const [salary, setSalary] = useState("");
+  // const [apply] = useApplyMutation();
+
+  // const applyData = {
+  //   name,
+  //   email,
+  //   phone,
+  //   portfolio,
+  //   position,
+  //   cv,
+  //   experiences,
+  //   salary,
+  //   user_id,
+  //   job_id,
+  // };
   const handleApply = async (e) => {
     e.preventDefault();
-    const { data } = await apply({applyData, token});
-    console.log(data);
-    console.log(applyData)
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("portfolio", portfolio);
+    formData.append("position", position);
+    formData.append("cv", cv);
+    formData.append("experiences", experiences);
+    formData.append("salary", salary);
+    formData.append("user_id", user_id);
+    formData.append("job_id", job_id);
+    // const { data } = await apply({formData, token});
+    axios
+      .post(`http://159.223.80.82/api/v1/apply`, formData, {
+        headers: {
+          "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
+          "app-secret":
+            "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => (res.statusText === "OK") && toggleModal())
+      .catch((error) => console.log(error));
   };
-
   return (
     <main
       className={`${
         dark ? "bg-[#303846]" : "bg-slate-200"
       } h-full w-full md:h-fit md:w-[80%] lg:w-[50%] absolute mx-auto p-10 rounded`}
     >
-      {/* <button  className="flex justify-end w-full">
-            <RxCross1/>
-        </button> */}
       <h1 className={`${dark && "text-slate-50"} text-center mb-3`}>
         Application Form
       </h1>
@@ -155,7 +172,7 @@ export default function ApplicationForm({ toggleModal, position, job_id }) {
               Upload CV <span className="text-red-500">*</span>
             </label>
             <input
-              onChange={(e) => setCv(e.target.files[0].name)}
+              onChange={(e) => setCv(e.target.files[0])}
               type="file"
               className={` w-full py-2 rounded px-4 outline-none`}
             />

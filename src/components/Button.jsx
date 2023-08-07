@@ -1,9 +1,10 @@
 import React from "react";
+import { BsArrowRight } from "react-icons/bs";
 import { BeatLoader } from "react-spinners";
 
-export default function Button({ text, className, isLoading }) {
+export default function Button({ text, className, isLoading, arrow }) {
   return (
-    <button disabled={isLoading} className={`flex h-[44px] items-center justify-center ${className}`}>
+    <button disabled={isLoading} className={`flex h-[44px] ${arrow && "items-center gap-3"} items-center justify-center ${className}`}>
       {!isLoading ? (
         text
       ) : (
@@ -16,6 +17,9 @@ export default function Button({ text, className, isLoading }) {
           data-testid="loader"
         />
       )}
+      {
+        arrow && <BsArrowRight/>
+      }
     </button>
   );
 }

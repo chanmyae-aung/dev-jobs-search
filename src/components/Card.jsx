@@ -13,6 +13,8 @@ export default function Card() {
   const nav = useNavigate();
   const dispatch = useDispatch();
   const currentPage = useSelector((state) => state.jobSlice.currentPage);
+  // const currentPage = Cookies.get("current")
+  console.log(currentPage)
   const { data, isLoading } = useGetJobsQuery({ token, currentPage });
   const [lastPage, setLastPage] = useState(data?.data.last_page);
   
@@ -23,7 +25,6 @@ export default function Card() {
   console.log(morejob)
   const [jobData, setJobData] = useState([])
   const filterJobs = searchJobs && searchJobs.length !== 12 ? searchJobs : jobData;
-
   useEffect(() => {
     if (Array.isArray(jobs)) {
       setJobData((prevJobData) => [...prevJobData, ...jobs]);
@@ -86,7 +87,7 @@ export default function Card() {
           </main>
         );
       })}
-      {lastPage !== currentPage && (
+      {/* {lastPage !== currentPage && ( */}
         <div className="w-fit mx-auto" onClick={handleLoadMore}>
           <Button
             isLoading={isLoading}
@@ -94,7 +95,7 @@ export default function Card() {
             className={`bg-blue-600 mb-5 text-white px-8 rounded `}
           />
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 }
