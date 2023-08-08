@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 const initialState = {
-  hideSearch: false,
   hero: true,
   jobs: null,
   moreJobs: [],
@@ -23,16 +22,12 @@ export const jobSlice = createSlice({
     },
     nextPage: (state) => {
       state.currentPage += 1
-      // Cookies.set("current", state.currentPage)
     },
     hideHero: (state) => {
       state.hero = false
     },
-    hideSearch: (state) => {
-      state.hideSearch = true
-    }
   },
 });
 
-export const { searchJobs, addJobs, nextPage, hideHero, hideSearch } = jobSlice.actions;
+export const { searchJobs, addJobs, nextPage, hideHero } = jobSlice.actions;
 export default jobSlice.reducer;

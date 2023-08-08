@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useGetJobsQuery } from "../redux/api/jobApi";
 import Button from "./Button";
-import { addJobs, hideHero, hideSearch, nextPage } from "../redux/features/jobSlice";
+import { addJobs, hideHero, nextPage } from "../redux/features/jobSlice";
 import { ClipLoader } from "react-spinners";
 import Hero from "./Hero";
 
@@ -17,6 +17,7 @@ export default function Card() {
   // const currentPage = Cookies.get("currentPage")
   console.log(currentPage);
   const { data, isLoading } = useGetJobsQuery({ token, currentPage });
+  console.log(data)
   const [lastPage, setLastPage] = useState(data?.data.last_page);
   const jobs = data?.data.data;
   const showHero = useSelector((state) => state.jobSlice.hero);
@@ -57,16 +58,15 @@ export default function Card() {
             onClick={() => {
               setHide(true);
               nav(`/detail/${i.id}`);
-              dispatch(hideSearch())
             }}
             className={`${
               dark ? "bg-[#374151]" : "bg-white"
-            } transition-all  ease-linear duration-300 p-5 rounded cursor-pointer w-[100%] md:w-[47%] xl:w-[30.5%]`}
+            } hover:-translate-y-1 transition-all  ease-linear duration-200 p-5 rounded cursor-pointer w-[100%] md:w-[47%] xl:w-[30.5%]`}
           >
             <div className=" overflow-hidden -mt-10 my-5 w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
               <img
                 className="h-full w-full object-cover origin-center"
-                src={i.company_image}
+                src={i.company.image}
                 alt=""
               />
             </div>
@@ -81,7 +81,7 @@ export default function Card() {
             >
               {i.position}
             </h1>
-            <h5 className="font-semibold">{i.company}</h5>
+            <h5 className="font-semibold">{i.company.name}</h5>
             <h4 className="font-semibold text-primary">{i.country}</h4>
           </main>
         );

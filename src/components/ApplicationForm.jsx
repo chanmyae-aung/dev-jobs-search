@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetUserProfileQuery } from "../redux/api/authApi";
 import Cookies from "js-cookie";
-// import { useApplyMutation } from "../redux/api/jobApi";
 import axios from "axios";
 
-export default function ApplicationForm({ toggleModal, position, job_id }) {
+export default function ApplicationForm({
+  toggleModal,
+  position,
+  job_id,
+  toastify,
+  setToastify,
+}) {
   const dark = useSelector((state) => state.dark.dark);
   const token = Cookies.get("token");
   const { data: user } = useGetUserProfileQuery(token);
@@ -17,20 +22,7 @@ export default function ApplicationForm({ toggleModal, position, job_id }) {
   const [cv, setCv] = useState("");
   const [experiences, setExperiences] = useState("");
   const [salary, setSalary] = useState("");
-  // const [apply] = useApplyMutation();
 
-  // const applyData = {
-  //   name,
-  //   email,
-  //   phone,
-  //   portfolio,
-  //   position,
-  //   cv,
-  //   experiences,
-  //   salary,
-  //   user_id,
-  //   job_id,
-  // };
   const handleApply = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -44,8 +36,7 @@ export default function ApplicationForm({ toggleModal, position, job_id }) {
     formData.append("salary", salary);
     formData.append("user_id", user_id);
     formData.append("job_id", job_id);
-    // const { data } = await apply({formData, token});
-    axios
+    await axios
       .post(`http://159.223.80.82/api/v1/apply`, formData, {
         headers: {
           "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
@@ -56,14 +47,24 @@ export default function ApplicationForm({ toggleModal, position, job_id }) {
           authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => (res.statusText === "OK") && toggleModal())
+      .then((res) => {
+        if (res.statusText === "OK") {
+          toggleModal();
+          // setToastify(true)
+          // setTimeout(() => {
+          //   setToastify(false)
+          //   notify()
+          // }, 5000);
+        }
+      })
       .catch((error) => console.log(error));
   };
+
   return (
     <main
       className={`${
         dark ? "bg-[#303846]" : "bg-slate-200"
-      } h-full w-full md:h-fit md:w-[80%] lg:w-[50%] absolute mx-auto p-10 rounded`}
+      } ${toastify && "hidden"} h-full w-full md:h-fit md:w-[80%] lg:w-[50%] absolute mx-auto p-10 rounded`}
     >
       <h1 className={`${dark && "text-slate-50"} text-center mb-3`}>
         Application Form

@@ -54,9 +54,9 @@ export default function Register() {
           axios
             .post("http://159.223.80.82/api/v1/google/login", googleUser, {
               headers: {
-                "app-id": "7dacc261-c441-4e28-a541-5571d6e7f153",
+                "app-id": "1f90ed2c-919c-43d1-907a-0002db4ea8df",
                 "app-secret":
-                  "2265cffc-1f7e-4520-8ab6-f839087548c95bde7c11-2793-4576-8c3b-465f392d0aac",
+                  "1f16c8c2-7d12-403c-a7d8-74f91cf763c5f9d2e216-5a8e-4c4d-9903-d6f1347a93cc",
                 Accept: "application/json",
                 "Content-Type": "application/json",
               },

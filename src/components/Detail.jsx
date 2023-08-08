@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 import ApplicationForm from "./ApplicationForm";
-import { useAnimate } from "framer-motion";
 import { useGetDetailQuery } from "../redux/api/jobApi";
 import { useLocation, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ClipLoader } from "react-spinners";
+import { ToastContainer } from "react-toastify";
 
 export default function Detail() {
   const token = Cookies.get("token");
@@ -14,6 +14,7 @@ export default function Detail() {
   console.log(location);
 
   const [modal, setModal] = useState(false);
+  const [toastify, setToastify] = useState(false);
   const toggleModal = () => {
     setModal(!modal);
   };
@@ -25,15 +26,15 @@ export default function Detail() {
   const handleDownload = () => {
     const imageUrl = data?.data.company_image;
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', imageUrl, true);
-    xhr.responseType = 'blob';
+    xhr.open("GET", imageUrl, true);
+    xhr.responseType = "blob";
     xhr.onload = () => {
       if (xhr.status === 200) {
         const blob = new Blob([xhr.response]);
         const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
-        a.download = 'Cham_Myae.jpg'; // Change the filename here if needed
+        a.download = "Cham_Myae.jpg"; // Change the filename here if needed
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -45,7 +46,7 @@ export default function Detail() {
   if (isLoading) {
     return (
       <div className="w-full h-screen items-center flex justify-center">
-        <ClipLoader color="#2563EB"/>
+        <ClipLoader color="#2563EB" />
       </div>
     );
   }
@@ -65,19 +66,20 @@ export default function Detail() {
         >
           <div className={`flex items-center w-full`}>
             <div className="bg-orange-500 w-16  md:w-24 h-16  md:h-24">
-              <img onClick={handleDownload}
+              <img
+                onClick={handleDownload}
                 className="w-full h-full object-cover"
-                src={data?.data.company_image}
+                src={data?.data.company.image}
                 alt=""
               />
             </div>
             <div className="w-[85%] flex items-center justify-between px-3 md:px-8">
               <div className="">
-                <h4 className="text-lg font-bold">{data?.data.company}</h4>
-                <p>{data?.data.company_website}</p>
+                <h4 className="text-lg font-bold">{data?.data.company.name}</h4>
+                <p>{data?.data.company.email}</p>
               </div>
               <a
-                href={data?.data.company_website}
+                href={data?.data.company.website}
                 className="px-5 py-2.5 h-fit rounded bg-blue-50 text-blue-600 text-sm font-bold"
               >
                 Company Site
@@ -93,7 +95,7 @@ export default function Detail() {
           <div className="flex flex-col lg:flex-row lg:items-center justify-between">
             <div>
               <div className="flex gap-3">
-                <p>5h ago.</p>
+                <p>{data?.data.timestamp}.</p>
                 <p>{data?.data.shift ? "Full Time" : "Part Time"}</p>
               </div>
               <h1
@@ -155,6 +157,10 @@ export default function Detail() {
               </li>
             </ul>
           </div>
+          <div className="mt-10">
+            <h4 className="sub-title">Salary</h4>
+            <p>{data?.data.salary}</p>
+          </div>
         </section>
         <footer
           className={`${
@@ -168,9 +174,9 @@ export default function Detail() {
                   dark && "text-white"
                 } transition-all ease-linear duration-300 lg:my-2 `}
               >
-                Senior Software Engineer
+                {data?.data.position}
               </h1>
-              <h5 className="font-semibold">Scoot</h5>
+              <h5 className="font-semibold">{data?.data.company.name}</h5>
             </div>
             <button
               onClick={toggleModal}
@@ -183,8 +189,14 @@ export default function Detail() {
       </main>
       {/* Application Form */}
       {modal && (
-        <main className="w-screen h-screen flex items-center justify-center absolute top-0 z-50 left-0 bg-transparent backdrop-brightness-50">
-          <ApplicationForm job_id={data?.data.id} position={data?.data.position} toggleModal={toggleModal} />
+        <main className={`w-screen h-screen flex items-center justify-center absolute top-0 z-50 left-0 bg-transparent ${!toastify && "backdrop-brightness-50"}`}>
+          <ApplicationForm
+            toastify={toastify}
+            setToastify={setToastify}
+            job_id={data?.data.id}
+            position={data?.data.position}
+            toggleModal={toggleModal}
+          />
         </main>
       )}
     </>

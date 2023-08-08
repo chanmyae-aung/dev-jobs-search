@@ -11,8 +11,8 @@ export default function Navbar({hide}) {
   // const dark = JSON.parse(Cookies.get("dark"))
   const dark = useSelector(state => state.dark.dark)
   const showHero = useSelector((state) => state.jobSlice.hero)
-  // const hideSearch = useSelector((state) => state.jobSlice.hideSearch)
-  // console.log(hideSearch)
+  const hideSearch = useSelector((state) => state.jobSlice.hideSearch)
+  console.log(hideSearch)
   
   const token = Cookies.get("token")
   const { data: user } = useGetUserProfileQuery(token);
@@ -59,7 +59,7 @@ export default function Navbar({hide}) {
           </div>
         </div>
       </section>
-      <div className={hide || showHero && "hidden"}>
+      <div className={`${(hide || showHero || hideSearch) && "hidden"}`}>
         <SearchBar/>
       </div>
     </main>
