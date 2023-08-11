@@ -105,6 +105,7 @@ export default function Detail() {
               >
                 {data?.data.position}
               </h1>
+              <p>({data?.data.candidates}) posts</p>
               <h4 className="font-semibold text-primary">
                 {data?.data.country}
               </h4>
