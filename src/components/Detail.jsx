@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 import ApplicationForm from "./ApplicationForm";
@@ -6,7 +6,6 @@ import { useGetDetailQuery } from "../redux/api/jobApi";
 import { useLocation, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ClipLoader } from "react-spinners";
-import { ToastContainer } from "react-toastify";
 
 export default function Detail() {
   const token = Cookies.get("token");
@@ -22,26 +21,6 @@ export default function Detail() {
   const { data, isLoading } = useGetDetailQuery({ token, id });
   console.log(data?.data);
   const dark = useSelector((state) => state.dark.dark);
-
-  const handleDownload = () => {
-    const imageUrl = data?.data.company_image;
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", imageUrl, true);
-    xhr.responseType = "blob";
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const blob = new Blob([xhr.response]);
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "Cham_Myae.jpg"; // Change the filename here if needed
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      }
-    };
-    xhr.send();
-  };
 
   if (isLoading) {
     return (

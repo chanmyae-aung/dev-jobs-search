@@ -26,7 +26,7 @@ export default function Navbar({hide, id}) {
   return (
     <main
       className={` ${
-       !showHero && dark ? "bg-[#333A45]" : `${ showHero ? "bg-transparent" : "bg-blue-600"}`
+       !showHero && dark ? "bg-[#333A45]" : `${ showHero && !id ? "bg-transparent" : "bg-blue-600"}`
       } transition-all ease-linear w-full duration-300 sticky top-0 z-10 lg:rounded-bl-[4rem] px-5 md:px-20 lg:px-40 h-[120px]`}
     >
       <section className=" text-white flex items-center justify-between">
