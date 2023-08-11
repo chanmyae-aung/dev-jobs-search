@@ -58,39 +58,12 @@ export default function Detail() {
           dark ? "bg-[#22262F] text-slate-200" : "bg-slate-100"
         } transition-all ease-linear duration-300 relative h-screen overflow-y-scroll`}
       >
-        <Navbar hide={true} />
-        <section
-          className={`${
-            dark ? "bg-[#374151] text-slate-200" : "bg-white"
-          } transition-all ease-linear flex items-center duration-300 lg:w-[50%] mx-auto sticky z-10 top-[88px] shadow-sm left-0 right-0 lg:rounded -mt-8 overflow-hidden`}
-        >
-          <div className={`flex items-center w-full`}>
-            <div className="bg-orange-500 w-16  md:w-24 h-16  md:h-24">
-              <img
-                onClick={handleDownload}
-                className="w-full h-full object-cover"
-                src={data?.data.company.image}
-                alt=""
-              />
-            </div>
-            <div className="w-[85%] flex items-center justify-between px-3 md:px-8">
-              <div className="">
-                <h4 className="text-lg font-bold">{data?.data.company.name}</h4>
-                <p>{data?.data.company.email}</p>
-              </div>
-              <a
-                href={data?.data.company.website}
-                className="px-5 py-2.5 h-fit rounded bg-blue-50 text-blue-600 text-sm font-bold"
-              >
-                Company Site
-              </a>
-            </div>
-          </div>
-        </section>
+        <Navbar id={id} hide={true} />
+        
         <section
           className={`${
             dark ? "bg-[#374151]" : "bg-white"
-          } transition-all ease-linear duration-300 p-5 md:p-10 lg:w-[50%] tracking-wide mt-5 lg:mt-7 mx-auto lg:rounded cursor-pointer`}
+          } transition-all ease-linear duration-300 p-5 md:p-10 lg:w-[50%] tracking-wide mt-5 lg:mt-20 mx-auto lg:rounded cursor-pointer`}
         >
           <div className="flex flex-col lg:flex-row lg:items-center justify-between">
             <div>
