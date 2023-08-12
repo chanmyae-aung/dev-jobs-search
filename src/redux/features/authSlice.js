@@ -7,6 +7,7 @@ const initialState = {
   token: null,
   forgotEmail: null,
   forgotCode: null,
+  registerUser: null,
 };
 
 export const authSlice = createSlice({
@@ -29,8 +30,12 @@ export const authSlice = createSlice({
       Cookies.set("forgotEmail", (state.forgotEmail));
       Cookies.set("forgotCode", (state.forgotCode));
     },
+    registerUser: (state, {payload}) => {
+      state.registerUser = payload.registerUser
+      Cookies.set("registerUser", state.registerUser)
+    }
   },
 });
 
-export const { addUser, removeUser, addForgotData } = authSlice.actions;
+export const { addUser, removeUser, addForgotData, registerUser } = authSlice.actions;
 export default authSlice.reducer;

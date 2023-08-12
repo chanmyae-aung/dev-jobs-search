@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { registerUser } from "../redux/features/authSlice";
 
 export default function Register() {
   const inputRefs = useRef({
@@ -79,16 +80,9 @@ export default function Register() {
     e.preventDefault();
     name.length < 3 && setNameError(true);
     const { data } = await register(userData);
-    console.log(data);
     // !data && console.log("Email already exist");
-    data?.success && nav("/verify-email", {
-      state: {
-        name: inputRefs.current.nameInput.value,
-        email: inputRefs.current.emailInput.value,
-        password: inputRefs.current.passwordInput.value,
-        confirm: inputRefs.current.confirmInput.value,
-      },
-    });
+    data?.success && nav("/verify-email")
+    dispatch(registerUser({registerUser:{name, email, password, confirm_password}}))
   };
 
   return (

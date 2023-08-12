@@ -5,18 +5,21 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import CountDown from "../components/CountDown";
 import { useOtpConfirmMutation } from "../redux/api/authApi";
 import { addUser } from "../redux/features/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 export default function VerifyEmail() {
-  const location = useLocation()
-  const name = location.state.name
-  const email = location.state.email
-  const password = location.state.password
-  const confirm_password = location.state.confirm
+  const registerData = useSelector(state => (state.authSlice.registerUser))
+  console.log(registerData)
+  const name = registerData.name
+  const email = registerData.email
+  const password = registerData.password
+  const confirm_password = registerData.confirm_password
   const nav = useNavigate();
   const dispatch = useDispatch()
   const [code, setCode] = useState("")
   const [resend, setResend] = useState(true)
+  console.log(name, email, password, confirm_password)
   useEffect(() => {
     setTimeout(() => {
       setResend(false)
