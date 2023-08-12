@@ -95,7 +95,7 @@ export default function Card() {
         })}
       </div>
       { 
-        <div className={` ${searchJobs.length !== 50 && "hidden"} w-fit mx-auto mt-5`} onClick={handleLoadMore}>
+        <div className={` ${searchJobs && searchJobs.length !== 50 && "hidden"} w-fit mx-auto mt-5`} onClick={handleLoadMore}>
           <Button
             disabled={currentPage === data?.data.last_page +1}
             isLoading={isLoading}
