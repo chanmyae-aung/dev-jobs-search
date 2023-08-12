@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import Button from "../components/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CountDown from "../components/CountDown";
 import { useOtpConfirmMutation } from "../redux/api/authApi";
 import { addUser } from "../redux/features/authSlice";
 import { useDispatch } from "react-redux";
 
 export default function VerifyEmail() {
+  const location = useLocation()
+  const name = location.state.name
+  const email = location.state.email
+  const password = location.state.password
+  const confirm_password = location.state.confirm
   const nav = useNavigate();
   const dispatch = useDispatch()
   const [code, setCode] = useState("")
@@ -20,7 +25,7 @@ export default function VerifyEmail() {
   const [otpCode, {isLoading}] = useOtpConfirmMutation()
   const handleVerify = async (e) => {
     e.preventDefault()
-    const {data} = await otpCode({code})
+    const {data} = await otpCode({code, name, email, password, confirm_password})
     console.log(data)
     dispatch(addUser({user: data?.data, token: data?.data.token}))
     data?.success && nav("/");

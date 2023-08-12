@@ -11,6 +11,7 @@ import Detail from "./components/Detail";
 import LoginGuard from "./components/LoginGuard";
 import ForgotCode from "./pages/ForgotCode";
 import RouteGuard from "./components/RouteGuard";
+import ErrorPage from "./components/ErrorPage";
 
 export default function App() {
   return (
@@ -88,7 +89,7 @@ export default function App() {
             </LoginGuard>
           }
         />
-        <Route path="*" element={<Home />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
   );

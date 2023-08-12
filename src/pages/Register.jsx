@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { LiaEye, LiaEyeSlash } from "react-icons/lia";
@@ -9,6 +9,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export default function Register() {
+  const inputRefs = useRef({
+    nameInput: null, emailInput: null, passwordInput: null, confirmInput: null
+  })
   const [showPass, setShowPass] = useState(true);
   const [showConfirmPass, setShowConfirmPass] = useState(true);
   const [nameError, setNameError] = useState(false);
@@ -78,7 +81,14 @@ export default function Register() {
     const { data } = await register(userData);
     console.log(data);
     // !data && console.log("Email already exist");
-    data?.success && nav("/verify-email");
+    data?.success && nav("/verify-email", {
+      state: {
+        name: inputRefs.current.nameInput.value,
+        email: inputRefs.current.emailInput.value,
+        password: inputRefs.current.passwordInput.value,
+        confirm: inputRefs.current.confirmInput.value,
+      },
+    });
   };
 
   return (
@@ -90,7 +100,7 @@ export default function Register() {
             Get started by creating your new account
           </p>
           <form onSubmit={handleSubmit} className="flex w-full flex-col gap-3">
-            <input
+            <input ref={(input) => (inputRefs.current.nameInput = input)}
               onChange={(e) => setName(e.target.value)}
               type="text"
               placeholder="Enter your name"
@@ -99,7 +109,7 @@ export default function Register() {
                 nameError && "text-red-500 border border-red-500"
               }bg-white w-full py-3 rounded px-4 outline-none text-sm`}
             />
-            <input
+            <input ref={(input) => (inputRefs.current.emailInput = input)}
               onChange={(e) => {
                 setEmail(e.target.value);
                 emailError && setEmailError(false);
@@ -112,7 +122,7 @@ export default function Register() {
               } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
             />
             <div className="relative">
-              <input
+              <input ref={(input) => (inputRefs.current.passwordInput = input)}
                 onChange={(e) => {
                   setPassword(e.target.value);
                   passwordError && setPasswordError(false);
@@ -123,7 +133,7 @@ export default function Register() {
                   passwordError && "text-red-500 border border-red-500"
                 } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
               />
-              <div
+              <div 
                 onClick={() => setShowPass(!showPass)}
                 className="absolute right-0 bottom-3"
               >
@@ -135,7 +145,7 @@ export default function Register() {
               </div>
             </div>
             <div className="relative">
-              <input
+              <input ref={(input) => (inputRefs.current.confirmInput = input)}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 type={`${showConfirmPass ? "password" : "text"}`}
                 placeholder="Confirm your password"
