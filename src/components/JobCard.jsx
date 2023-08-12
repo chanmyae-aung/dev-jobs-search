@@ -15,26 +15,21 @@ export default function Card() {
   const nav = useNavigate();
   const dispatch = useDispatch();
   const currentPage = useSelector((state) => state.jobSlice.currentPage);
-  // const currentPage = Cookies.get("currentPage")
-  console.log(currentPage);
   const { data, isLoading } = useGetJobsQuery({ token, currentPage });
-  console.log(data);
   const [lastPage, setLastPage] = useState(data?.data.last_page);
   const jobs = data?.data.data;
   const showHero = useSelector((state) => state.jobSlice.hero);
   const [hide, setHide] = useState(false);
-  const searchJobs = useSelector((state) => state.jobSlice.jobs?.data.data);
+  const searchJobs = useSelector((state) => (state.jobSlice.jobs?.data));
   const morejob = useSelector((state) => state?.jobSlice.moreJobs);
   const filterJobs =
-    searchJobs && searchJobs.length !== 12 ? searchJobs : morejob;
+   searchJobs && searchJobs.length != 50  ? searchJobs : morejob;
 
   const handleLoadMore = () => {
     dispatch(addJobs({ moreJobs: jobs }));
     dispatch(nextPage());
     dispatch(hideHero());
   };
-
-  console.log(data?.data.last_page);
 
   if (searchJobs && !searchJobs.length) {
     return (
@@ -62,7 +57,7 @@ export default function Card() {
 
   return (
     <>
-      <div className="flex flex-wrap justify-between gap-10 px-5 md:px-20 lg:px-40 -mt-7">
+      <div className="flex flex-wrap justify-between gap-10 px-5 md:px-20 lg:px-40 -mt-7 mb-5">
         {filterJobs?.map((i) => {
           return (
             <main
@@ -100,7 +95,7 @@ export default function Card() {
         })}
       </div>
       { 
-        <div className="w-fit mx-auto mt-5" onClick={handleLoadMore}>
+        <div className={` ${searchJobs.length !== 50 && "hidden"} w-fit mx-auto mt-5`} onClick={handleLoadMore}>
           <Button
             disabled={currentPage === data?.data.last_page +1}
             isLoading={isLoading}

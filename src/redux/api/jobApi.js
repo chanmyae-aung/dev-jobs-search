@@ -11,8 +11,7 @@ export const jobApi = createApi({
         url: `/job?page=${currentPage}`,
         headers: {
           "app-id": appId,
-          "app-secret":
-            appSecret,
+          "app-secret": appSecret,
           authorization: `Bearer ${token}`,
         },
       }),
@@ -23,8 +22,7 @@ export const jobApi = createApi({
         url: `/job/${id}`,
         headers: {
           "app-id": appId,
-          "app-secret":
-            appSecret,
+          "app-secret": appSecret,
           authorization: `Bearer ${token}`,
         },
       }),
@@ -37,22 +35,20 @@ export const jobApi = createApi({
         body: searchData,
         headers: {
           "app-id": appId,
-          "app-secret":
-            appSecret,
+          "app-secret": appSecret,
           authorization: `Bearer ${token}`,
         },
       }),
       invalidatesTags: ["job"],
     }),
     apply: builder.mutation({
-      query: ({applyData, token}) => ({
+      query: ({ applyData, token }) => ({
         url: "/apply",
         method: "POST",
         body: applyData,
         headers: {
           "app-id": appId,
-          "app-secret":
-            appSecret,
+          "app-secret": appSecret,
           authorization: `Bearer ${token}`,
         },
       }),

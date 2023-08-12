@@ -16,18 +16,17 @@ export default function SearchBar() {
   const [position, setPosition] = useState(null)
   const [country, setCountry] = useState(null)
   const [shift, setShift] = useState(null)
-  console.log(shift)
   const dispatch = useDispatch()
 
   const [search] = useSearchJobsMutation()
   const searchData = {position, country, shift}
+  console.log(searchData)
   const handleSearch = async (e) => {
     e.preventDefault()
     const {data} = await search({searchData, token})
-    console.log(searchData)
+    // console.log(searchData)
     console.log(data)
     searchData && dispatch(searchJobs({jobs: data}))
-    dispatch(search({search: searchData}))
   }
 
   return (
@@ -61,7 +60,7 @@ export default function SearchBar() {
           } transition-all ease-linear duration-300 rounded-r z-10 flex items-center justify-between w-full lg:w-[30%] py-2 pl-4 pr-2 outline-none`}
         >
           <div className="flex gap-4">
-            <input type="checkbox" id="checkbox" onChange={(e) => e.target.checked ? setShift(1) : setShift(null)} />
+            <input type="checkbox" id="checkbox" onChange={(e) => setShift(e.target.checked ? "1" : null)} />
             <label htmlFor="checkbox" className="flex gap-1 cursor-pointer">
               Full time <span className="hidden xl:flex">only</span>
             </label>

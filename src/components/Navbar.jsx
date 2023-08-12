@@ -14,7 +14,6 @@ export default function Navbar({hide, id}) {
   const dark = useSelector(state => state.dark.dark)
   const showHero = useSelector((state) => state.jobSlice.hero)
   const hideSearch = useSelector((state) => state.jobSlice.hideSearch)
-  console.log(hideSearch)
   const { data, isLoading } = useGetDetailQuery({ token, id });
   const { data: user } = useGetUserProfileQuery(token);
 
