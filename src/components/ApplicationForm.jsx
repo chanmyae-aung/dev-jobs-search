@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetUserProfileQuery } from "../redux/api/authApi";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { BeatLoader } from "react-spinners";
 
 export default function ApplicationForm({
   toggleCloseForm,
@@ -15,6 +16,7 @@ export default function ApplicationForm({
   const token = Cookies.get("token");
   const { data: user } = useGetUserProfileQuery(token);
   const user_id = user?.data.id;
+  const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState(user?.data.name);
   const [email, setEmail] = useState(user?.data.email);
   const [phone, setPhone] = useState("");
@@ -50,6 +52,7 @@ export default function ApplicationForm({
       .then((res) => {
         if (res.statusText === "OK") {
           toggleCloseForm();
+          setIsLoading(false)
           console.log(res)
         }
       })
@@ -183,11 +186,21 @@ export default function ApplicationForm({
           >
             Cancel
           </button>
-          <button
+          <button onClick={() => setIsLoading(true)}
+          disabled={isLoading}
             type="submit"
-            className="px-5 mt-3 lg:px-5 py-2.5 h-fit mx-auto rounded text-white bg-blue-600 w-[50%] font-bold"
+            className="px-5 mt-3 lg:px-5 py-2.5 flex items-center justify-center h-fit mx-auto rounded text-white bg-blue-600 w-[50%] font-bold"
           >
-            Apply Now
+            {!isLoading ? (
+        "Apply Now"
+      ) : (
+        <BeatLoader
+          color="#FFF"
+          size={10}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      )}
           </button>
         </div>
       </form>
