@@ -26,11 +26,11 @@ export default function Navbar({hide, id}) {
     <main
       className={` ${
        !showHero && dark ? "bg-[#333A45]" : `${ showHero && !id ? "bg-transparent" : "bg-blue-600"}`
-      } transition-all ease-linear w-full duration-300 sticky top-0 z-10 lg:rounded-bl-[4rem] px-5 md:px-20 lg:px-40 h-[120px]`}
+      } transition-all ease-linear w-full duration-300 sticky top-0 z-10 lg:rounded-bl-[4rem]  h-[120px]`}
     >
-      <section className=" text-white flex items-center justify-between">
+      <section className="px-5 md:px-20 lg:px-40 text-white flex items-center justify-between">
         <div>
-          <h1 className={`${showHero ? "text-blue-600" : "text-white"} text-xl font-bold italic py-8`}>devjobs</h1>
+          <h1 className={`${showHero && !id ? "text-blue-600" : "text-white"} text-xl font-bold italic py-8`}>devjobs</h1>
         </div>
         <div className="flex gap-4 items-center">
           <div className="flex items-center">
@@ -59,16 +59,16 @@ export default function Navbar({hide, id}) {
           </div>
         </div>
       </section>
-      <div className={`${(hide || showHero || hideSearch) && "hidden"}`}>
+      <div className={`${(hide || showHero || hideSearch) && "hidden"} md:px-20 lg:px-40`}>
         <SearchBar/>
       </div>
       <section
           className={`${ !id && "hidden"} ${
             dark ? "bg-[#374151] text-slate-200" : "bg-white"
-          } transition-all ease-linear flex items-center duration-300 lg:w-[65.5%] mx-auto sticky z-10 top-[88px] shadow-sm left-0 right-0 lg:rounded -mt-4 overflow-hidden`}
+          } transition-all ease-linear flex items-center duration-300 lg:w-[50%] mx-auto sticky z-10 top-[88px] shadow-sm left-0 right-0 lg:rounded -mt-4 overflow-hidden`}
         >
           <div className={`flex items-center w-full`}>
-            <div className="bg-orange-500 w-16  md:w-24 h-16  md:h-24">
+            <div className=" w-16  md:w-24 h-16  md:h-24">
               <img
                 // onClick={handleDownload}
                 className="w-full h-full object-cover"

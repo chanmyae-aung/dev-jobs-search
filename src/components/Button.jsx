@@ -10,15 +10,13 @@ export default function Button({ text, className, isLoading, arrow, disabled }) 
       ) : (
         <BeatLoader
           color="#FFF"
-          // loading={loading}
-          // cssOverride={override}
           size={10}
           aria-label="Loading Spinner"
           data-testid="loader"
         />
       )}
       {
-        arrow && <BsArrowRight/>
+        arrow && <BsArrowRight className=""/>
       }
     </button>
   );

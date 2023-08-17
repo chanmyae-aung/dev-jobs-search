@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import JobCard from "../components/JobCard";
-import Card from "../components/Card";
 
 export default function Home() {
   const dark = useSelector((state) => state.dark.dark);

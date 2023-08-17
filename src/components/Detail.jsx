@@ -6,6 +6,7 @@ import { useGetDetailQuery } from "../redux/api/jobApi";
 import { useLocation, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ClipLoader } from "react-spinners";
+import ComfirmBox from "./ComfirmBox";
 
 export default function Detail() {
   const token = Cookies.get("token");
@@ -13,10 +14,19 @@ export default function Detail() {
   console.log(location);
 
   const [modal, setModal] = useState(false);
+  const [alert, setAlert] = useState(false)
+  const [closeForm, setCloseForm] = useState(false)
   const [toastify, setToastify] = useState(false);
   const toggleModal = () => {
     setModal(!modal);
   };
+  const toggleAlert= () => {
+    setAlert(!alert)
+  }
+  const toggleCloseForm = () => {
+    setCloseForm(!closeForm)
+  }
+  console.log(alert)
   const { id } = useParams();
   const { data, isLoading } = useGetDetailQuery({ token, id });
   console.log(data?.data);
@@ -42,7 +52,7 @@ export default function Detail() {
         <section
           className={`${
             dark ? "bg-[#374151]" : "bg-white"
-          } transition-all ease-linear duration-300 p-5 md:p-10 lg:w-[50%] tracking-wide mt-5 lg:mt-20 mx-auto lg:rounded cursor-pointer`}
+          } transition-all ease-linear duration-300 p-5 md:p-10 lg:w-[50%] tracking-wide mt-10 md:mt-20 mx-auto lg:rounded cursor-pointer`}
         >
           <div className="flex flex-col lg:flex-row lg:items-center justify-between">
             <div>
@@ -57,7 +67,7 @@ export default function Detail() {
               >
                 {data?.data.position}
               </h1>
-              <p>({data?.data.candidates}) posts</p>
+              <p className="mb-2 text-lg font-semibold">({data?.data.candidates} - M/F) posts</p>
               <h4 className="font-semibold text-primary">
                 {data?.data.country}
               </h4>
@@ -69,10 +79,10 @@ export default function Detail() {
               Apply Now
             </button>
           </div>
-          <p className="py-10">{data?.data.job_description}</p>
+          <p className="py-10" dangerouslySetInnerHTML={{ __html: data?.data.job_description }}></p>
           <div>
             <h4 className="sub-title">Requirements</h4>
-            <p>{data?.data.requirement}</p>
+            <p dangerouslySetInnerHTML={{ __html: data?.data.requirement }}></p>
             <ul>
               <li>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -91,8 +101,8 @@ export default function Detail() {
             </ul>
           </div>
           <div className="mt-10">
-            <h4 className="sub-title">What You Will Do</h4>
-            <p>{data?.data.responsibilities}</p>
+            <h4 className="sub-title">Responsibilities</h4>
+            <p dangerouslySetInnerHTML={{ __html: data?.data.responsibilities }}></p>
             <ul>
               <li>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -112,7 +122,7 @@ export default function Detail() {
           </div>
           <div className="mt-10">
             <h4 className="sub-title">Salary</h4>
-            <p>{data?.data.salary}</p>
+            <p>$ {data?.data.salary}</p>
           </div>
         </section>
         <footer
@@ -140,16 +150,21 @@ export default function Detail() {
           </div>
         </footer>
       </main>
+      {alert && <div>
+          
+      </div>}
       {/* Application Form */}
       {modal && (
         <main className={`w-screen h-screen flex items-center justify-center absolute top-0 z-50 left-0 bg-transparent ${!toastify && "backdrop-brightness-50"}`}>
-          <ApplicationForm
+          {!closeForm ? <ApplicationForm
             toastify={toastify}
             setToastify={setToastify}
             job_id={data?.data.id}
             position={data?.data.position}
+            toggleCloseForm={toggleCloseForm}
+            toggleAlert={toggleAlert}
             toggleModal={toggleModal}
-          />
+          /> : <ComfirmBox setCloseForm={setCloseForm} toggleModal={toggleModal}/> }
         </main>
       )}
     </>

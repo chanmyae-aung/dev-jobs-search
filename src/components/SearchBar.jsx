@@ -40,7 +40,7 @@ export default function SearchBar() {
             className={`${
               dark ? "bg-[#374151] text-white" : "bg-white"
             } transition-all ease-linear duration-300 w-full rounded-l py-[14px] pl-12 pr-4 outline-none`}
-            placeholder="Filter by title, companies, expertise..."
+            placeholder="Filter by title, companies..."
           />
         </div>
         <div className={` relative w-full lg:w-[30%] border-x`}>

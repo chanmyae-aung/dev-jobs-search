@@ -5,11 +5,11 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 export default function ApplicationForm({
+  toggleCloseForm,
   toggleModal,
   position,
   job_id,
   toastify,
-  setToastify,
 }) {
   const dark = useSelector((state) => state.dark.dark);
   const token = Cookies.get("token");
@@ -49,13 +49,8 @@ export default function ApplicationForm({
       })
       .then((res) => {
         if (res.statusText === "OK") {
-          toggleModal();
+          toggleCloseForm();
           console.log(res)
-          // setToastify(true)
-          // setTimeout(() => {
-          //   setToastify(false)
-          //   notify()
-          // }, 5000);
         }
       })
       .catch((error) => console.log(error));

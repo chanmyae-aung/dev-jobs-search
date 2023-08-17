@@ -68,18 +68,20 @@ export default function Card() {
               }}
               className={`${
                 dark ? "bg-[#374151]" : "bg-white"
-              } hover:-translate-y-1 transition-all  ease-linear duration-200 p-5 rounded cursor-pointer w-[100%] md:w-[47%] xl:w-[30.5%]`}
+              } hover:shadow-blue-200 hover:shadow-lg transition-all  ease-linear duration-200 p-5 rounded cursor-pointer w-[100%] md:w-[47%] xl:w-[30.5%]`}
             >
-              <div className=" overflow-hidden -mt-10 my-5 w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+              <div className="flex justify-between">
+              <div className=" overflow-hidden mb-5 w-[50px] h-[50px] rounded-lg flex items-center justify-center">
                 <img
                   className="h-full w-full object-cover origin-center"
-                  src={i.company.image}
+                  src={i.company.image ? i.company.image : i.company.name.charAt(0).toUpperCase()}
                   alt=""
                 />
               </div>
               <div className="flex gap-3">
                 <p>{i.timestamp}.</p>
                 <p>{i.shift ? "Full Time" : "Part Time"}</p>
+              </div>
               </div>
               <h1
                 className={`${

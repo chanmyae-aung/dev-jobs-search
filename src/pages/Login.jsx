@@ -35,10 +35,19 @@ export default function Login() {
     <main className="flex h-screen items-center justify-center">
       <div className="lg:w-[60%] w-screen h-screen lg:h-[80%] flex rounded overflow-hidden bg-slate-100">
         <section className="lg:w-[50%] w-full px-10 md:px-40 lg:px-10 h-full flex flex-col gap-5 items-center justify-center">
-          <h1>Welcome Back!</h1>
+        <div className="flex items-center flex-col gap-2 border-b py-3 px-8">
+          <img
+            className="w-12"
+            src="https://img.icons8.com/?size=512&id=sFFBQN8kzSOS&format=png"
+            alt=""
+          />
+          <h1 className=" font-bold text-2xl text-blue-500 text-center">
+            devjobs
+          </h1>
+        </div>
           <p className="text-slate-500">
             Welcome back to{" "}
-            <span className="text-lg font-bold italic text-primary">
+            <span className="text-lg font-bold italic">
               devjobs
             </span>
           </p>
