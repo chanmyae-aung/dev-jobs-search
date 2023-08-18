@@ -102,7 +102,7 @@ export default function Card() {
             disabled={currentPage === data?.data.last_page +1}
             isLoading={isLoading}
             text={currentPage === data?.data.last_page +1 ? "No More Jobs" : "Load More"}
-            className={`bg-blue-600 mb-5 text-white px-8 rounded `}
+            className={`bg-blue-600 mb-5 text-white px-8 rounded ${currentPage === data?.data.last_page +1 && "bg-transparent text-slate-800"}`}
           />
         </div>
       }

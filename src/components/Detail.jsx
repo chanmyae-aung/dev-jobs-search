@@ -26,7 +26,6 @@ export default function Detail() {
   const toggleCloseForm = () => {
     setCloseForm(!closeForm)
   }
-  console.log(alert)
   const { id } = useParams();
   const { data, isLoading } = useGetDetailQuery({ token, id });
   console.log(data?.data);

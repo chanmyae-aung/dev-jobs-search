@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import React from "react";
-import { RiLogoutCircleRLine } from "react-icons/ri";
+import { MdLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetUserProfileQuery,
@@ -14,7 +14,7 @@ export default function UserProfile() {
   const nav = useNavigate();
   const dispatach = useDispatch();
   const dark = useSelector((state) => state.dark.dark);
-  const [logout] = useLogoutMutation();
+  const [logout, {isLoading}] = useLogoutMutation();
 
   const { data: user } = useGetUserProfileQuery(token);
   const handleLogout = async () => {
@@ -51,10 +51,11 @@ export default function UserProfile() {
         </div>
         <hr />
         <button
+        disabled={isLoading}
           onClick={handleLogout}
-          className="flex w-full ml-16 justify-start mt-5 text-sm font-semibold pt-3 items-center gap-3"
+          className={`flex w-fit ${isLoading && "text-slate-200"} focus:bg-white transition-transform focus:translate-x-1 ml-32 mt-5 text-sm font-semibold pt-3 items-center gap-3`}
         >
-          <RiLogoutCircleRLine />
+          <MdLogout />
           <p>Logout</p>
         </button>
       </section>

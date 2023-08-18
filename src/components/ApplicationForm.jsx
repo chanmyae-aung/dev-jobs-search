@@ -4,6 +4,7 @@ import { useGetUserProfileQuery } from "../redux/api/authApi";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { BeatLoader } from "react-spinners";
+import Button from "./Button";
 
 export default function ApplicationForm({
   toggleCloseForm,
@@ -16,7 +17,7 @@ export default function ApplicationForm({
   const token = Cookies.get("token");
   const { data: user } = useGetUserProfileQuery(token);
   const user_id = user?.data.id;
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState(user?.data.name);
   const [email, setEmail] = useState(user?.data.email);
   const [phone, setPhone] = useState("");
@@ -24,8 +25,10 @@ export default function ApplicationForm({
   const [cv, setCv] = useState("");
   const [experiences, setExperiences] = useState("");
   const [salary, setSalary] = useState("");
+  const file = document.querySelector(".file")
 
   const handleApply = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
@@ -51,19 +54,19 @@ export default function ApplicationForm({
       })
       .then((res) => {
         if (res.statusText === "OK") {
+          setIsLoading(false);
           toggleCloseForm();
-          setIsLoading(false)
-          console.log(res)
+          console.log(res);
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => error && setIsLoading(false));
   };
-
+  console.log(isLoading);
   return (
     <main
-      className={`${
-        dark ? "bg-[#303846]" : "bg-slate-200"
-      } ${toastify && "hidden"} h-full w-full md:h-fit md:w-[80%] lg:w-[50%] absolute mx-auto p-10 rounded`}
+      className={`${dark ? "bg-[#303846]" : "bg-slate-200"} ${
+        toastify && "hidden"
+      } h-full w-full md:h-fit md:w-[80%] lg:w-[50%] absolute mx-auto p-10 rounded`}
     >
       <h1 className={`${dark && "text-slate-50"} text-center mb-3`}>
         Application Form
@@ -171,10 +174,10 @@ export default function ApplicationForm({
             <label className="font-semibold">
               Upload CV <span className="text-red-500">*</span>
             </label>
-            <input
+            <input accept=".pdf"
               onChange={(e) => setCv(e.target.files[0])}
               type="file"
-              className={` w-full py-2 rounded px-4 outline-none`}
+              className={`focus-within:border-0 w-full py-2 file rounded px-4 outline-none`}
             />
           </div>
         </section>
@@ -186,21 +189,21 @@ export default function ApplicationForm({
           >
             Cancel
           </button>
-          <button onClick={() => setIsLoading(true)}
-          disabled={isLoading}
+          <button
+            disabled={isLoading}
             type="submit"
-            className="px-5 mt-3 lg:px-5 py-2.5 flex items-center justify-center h-fit mx-auto rounded text-white bg-blue-600 w-[50%] font-bold"
+            className="px-5 mt-3 lg:px-5 py-2.5 h-[40px] flex items-center justify-center mx-auto rounded text-white bg-blue-600 w-[50%] font-bold"
           >
             {!isLoading ? (
-        "Apply Now"
-      ) : (
-        <BeatLoader
-          color="#FFF"
-          size={10}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      )}
+              "Apply Now"
+            ) : (
+              <BeatLoader
+                color="#FFF"
+                size={10}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            )}
           </button>
         </div>
       </form>

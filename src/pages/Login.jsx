@@ -62,7 +62,7 @@ export default function Login() {
               autoFocus={true}
               className={`${
                 emailError && "text-red-500 border border-red-500"
-              } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
+              } bg-white w-full py-3 rounded px-4 outline-none text-sm focus-state`}
             />
             <div className="relative">
               <input
@@ -74,7 +74,7 @@ export default function Login() {
                 placeholder="Enter your password"
                 className={`${
                   error && "text-red-500 border border-red-500"
-                } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
+                } bg-white w-full py-3 rounded px-4 outline-none text-sm focus-state`}
               />
               <div
                 onClick={() => setShowPass(!showPass)}
@@ -98,7 +98,7 @@ export default function Login() {
                 isLoading={isLoading}
                 text={"LOG IN"}
                 className={
-                  "w-fit px-8 flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
+                  "w-fit px-8 hover-state flex-grow bg-blue-600 text-white text-sm font-bold py-3 rounded"
                 }
               />
               {/* <button className="flex gap-3 bg-white items-center p-2.5 border-blue-600 text-slate-500 px-5 border rounded w-fit">

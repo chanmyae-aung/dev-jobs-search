@@ -65,7 +65,7 @@ export default function Navbar({hide, id}) {
       <section
           className={`${ !id && "hidden"} ${
             dark ? "bg-[#374151] text-slate-200" : "bg-white"
-          } transition-all ease-linear flex items-center duration-300 lg:w-[50%] mx-auto sticky z-10 top-[88px] shadow-sm left-0 right-0 lg:rounded -mt-4 overflow-hidden`}
+          } transition-all ease-linear flex items-center duration-300 lg:w-[50%] mx-auto sticky z-10 top-[88px] shadow-sm left-0 right-0 lg:rounded lg:-mt-3 overflow-hidden`}
         >
           <div className={`flex items-center w-full`}>
             <div className=" w-16  md:w-24 h-16  md:h-24">

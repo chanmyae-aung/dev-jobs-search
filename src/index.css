@@ -41,3 +41,11 @@ ul {
   background-position: center;
 
 }
+input {
+  @apply focus-within:border border-blue-400
+}
+button {
+  @apply transition-transform focus:translate-y-1 focus:bg-blue-700
+}
+
+

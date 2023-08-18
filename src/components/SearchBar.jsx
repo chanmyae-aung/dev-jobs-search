@@ -39,7 +39,7 @@ export default function SearchBar() {
             type="text"
             className={`${
               dark ? "bg-[#374151] text-white" : "bg-white"
-            } transition-all ease-linear duration-300 w-full rounded-l py-[14px] pl-12 pr-4 outline-none`}
+            } transition-all ease-linear duration-300 focus:border-0 w-full rounded-l py-[14px] pl-12 pr-4 outline-none`}
             placeholder="Filter by title, companies..."
           />
         </div>
@@ -50,14 +50,14 @@ export default function SearchBar() {
             type="text"
             className={`${
               dark ? "bg-[#374151] text-white" : "bg-white"
-            } transition-all ease-linear duration-300 w-full py-[14px] pl-12 pr-4 outline-none`}
+            } transition-all ease-linear duration-300 focus:border-0 w-full py-[14px] pl-12 pr-4 outline-none`}
             placeholder="Filter by location..."
           />
         </div>
         <div
           className={`${
             dark ? "bg-[#374151] text-white" : "bg-white"
-          } transition-all ease-linear duration-300 rounded-r z-10 flex items-center justify-between w-full lg:w-[30%] py-2 pl-4 pr-2 outline-none`}
+          } transition-all ease-linear duration-300 focus:border-0 rounded-r z-10 flex items-center justify-between w-full lg:w-[30%] py-2 pl-4 pr-2 outline-none`}
         >
           <div className="flex gap-4">
             <input type="checkbox" id="checkbox" onChange={(e) => setShift(e.target.checked ? "1" : null)} />
@@ -67,7 +67,7 @@ export default function SearchBar() {
           </div>
           <Button
             text={"Search"}
-            className={"bg-blue-600 text-white font-bold px-4 py-1.5 h-fit rounded"}
+            className={"bg-blue-600 focus:translate-y-0 focus:bg-blue-700 text-white font-bold px-4 py-1.5 h-fit rounded"}
           />
         </div>
       </form>
@@ -81,7 +81,7 @@ export default function SearchBar() {
               type="text"
               className={`${
                 dark ? "bg-[#374151] text-white" : "bg-white"
-              } transition-all ease-linear duration-300 w-full rounded py-[14px] pl-12 pr-4 outline-none`}
+              } transition-all ease-linear duration-300 focus:border-0 w-full rounded py-[14px] pl-12 pr-4 outline-none`}
               placeholder="Filter by title, companies, expertise..."
             />
           </div>
@@ -93,7 +93,7 @@ export default function SearchBar() {
               type="text"
               className={`${
                 dark ? "bg-[#374151] text-white" : "bg-white"
-              } transition-all ease-linear duration-300 w-full rounded py-[14px] pl-12 pr-4 outline-none`}
+              } transition-all ease-linear duration-300 focus:border-0 w-full rounded py-[14px] pl-12 pr-4 outline-none`}
               placeholder="Filter by location..."
             />
           </div>
