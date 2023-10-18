@@ -1,2 +1,5 @@
-export  const appId = "1f90ed2c-919c-43d1-907a-0002db4ea8df"
-export const appSecret = "1f16c8c2-7d12-403c-a7d8-74f91cf763c5f9d2e216-5a8e-4c4d-9903-d6f1347a93cc"
+export const baseUrl = "http://139.177.190.190/api/v1";
+
+export const appId = "81354061-e6eb-40ee-8da3-7389a198f553";
+export const appSecret =
+  "846eb7ef-2891-4c86-8e31-795c1599ae55fae95f14-a642-4ea3-bfd8-587f44b75cbd";

@@ -8,11 +8,15 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { registerUser } from "../redux/features/authSlice";
+import { appId, appSecret, baseUrl } from "../constant/authKey";
 
 export default function Register() {
   const inputRefs = useRef({
-    nameInput: null, emailInput: null, passwordInput: null, confirmInput: null
-  })
+    nameInput: null,
+    emailInput: null,
+    passwordInput: null,
+    confirmInput: null,
+  });
   const [showPass, setShowPass] = useState(true);
   const [showConfirmPass, setShowConfirmPass] = useState(true);
   const [nameError, setNameError] = useState(false);
@@ -56,11 +60,10 @@ export default function Register() {
           };
           console.log(googleUser);
           axios
-            .post("http://159.223.80.82/api/v1/google/login", googleUser, {
+            .post(`${baseUrl}/google/login`, googleUser, {
               headers: {
-                "app-id": "1f90ed2c-919c-43d1-907a-0002db4ea8df",
-                "app-secret":
-                  "1f16c8c2-7d12-403c-a7d8-74f91cf763c5f9d2e216-5a8e-4c4d-9903-d6f1347a93cc",
+                "app-id": appId,
+                "app-secret": appSecret,
                 Accept: "application/json",
                 "Content-Type": "application/json",
               },
@@ -81,29 +84,34 @@ export default function Register() {
     name.length < 3 && setNameError(true);
     const { data } = await register(userData);
     // !data && console.log("Email already exist");
-    data?.success && nav("/verify-email")
-    dispatch(registerUser({registerUser:{name, email, password, confirm_password}}))
+    data?.success && nav("/verify-email");
+    dispatch(
+      registerUser({
+        registerUser: { name, email, password, confirm_password },
+      })
+    );
   };
 
   return (
     <main className="flex h-screen items-center justify-center">
       <div className="lg:w-[60%] w-screen h-screen lg:h-[80%] flex rounded overflow-hidden bg-slate-100">
         <section className="lg:w-[50%] w-full px-10 md:px-40 lg:px-10 h-full flex flex-col gap-5 items-center justify-center">
-        <div className="flex items-center flex-col gap-2 border-b py-3 px-8">
-          <img
-            className="w-12"
-            src="https://img.icons8.com/?size=512&id=sFFBQN8kzSOS&format=png"
-            alt=""
-          />
-          <h1 className=" font-bold text-2xl text-blue-500 text-center">
-            devjobs
-          </h1>
-        </div>
+          <div className="flex items-center flex-col gap-2 border-b py-3 px-8">
+            <img
+              className="w-12"
+              src="https://img.icons8.com/?size=512&id=sFFBQN8kzSOS&format=png"
+              alt=""
+            />
+            <h1 className=" font-bold text-2xl text-blue-500 text-center">
+              devjobs
+            </h1>
+          </div>
           <p className="text-slate-500">
             Get started by creating your new account
           </p>
           <form onSubmit={handleSubmit} className="flex w-full flex-col gap-3">
-            <input ref={(input) => (inputRefs.current.nameInput = input)}
+            <input
+              ref={(input) => (inputRefs.current.nameInput = input)}
               onChange={(e) => setName(e.target.value)}
               type="text"
               placeholder="Enter your name"
@@ -112,7 +120,8 @@ export default function Register() {
                 nameError && "text-red-500 border border-red-500"
               }bg-white w-full py-3 rounded px-4 outline-none text-sm`}
             />
-            <input ref={(input) => (inputRefs.current.emailInput = input)}
+            <input
+              ref={(input) => (inputRefs.current.emailInput = input)}
               onChange={(e) => {
                 setEmail(e.target.value);
                 emailError && setEmailError(false);
@@ -125,7 +134,8 @@ export default function Register() {
               } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
             />
             <div className="relative">
-              <input ref={(input) => (inputRefs.current.passwordInput = input)}
+              <input
+                ref={(input) => (inputRefs.current.passwordInput = input)}
                 onChange={(e) => {
                   setPassword(e.target.value);
                   passwordError && setPasswordError(false);
@@ -136,7 +146,7 @@ export default function Register() {
                   passwordError && "text-red-500 border border-red-500"
                 } bg-white w-full py-3 rounded px-4 outline-none text-sm`}
               />
-              <div 
+              <div
                 onClick={() => setShowPass(!showPass)}
                 className="absolute right-0 bottom-3"
               >
@@ -148,7 +158,8 @@ export default function Register() {
               </div>
             </div>
             <div className="relative">
-              <input ref={(input) => (inputRefs.current.confirmInput = input)}
+              <input
+                ref={(input) => (inputRefs.current.confirmInput = input)}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 type={`${showConfirmPass ? "password" : "text"}`}
                 placeholder="Confirm your password"
